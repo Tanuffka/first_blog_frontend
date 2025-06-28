@@ -5,7 +5,7 @@ import { useTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 
 import Router from './Router';
-import './App.css';
+import Header from './components/Header';
 
 function App() {
   const theme = useTheme();
@@ -19,6 +19,7 @@ function App() {
         }}
       >
         <CssBaseline />
+        <Header />
         <Router />
       </Box>
     </BrowserRouter>
