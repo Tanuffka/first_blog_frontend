@@ -2,12 +2,12 @@ import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import Container from '@mui/material/Container';
 
-import Avatar from '../Avatar/Avatar';
-import Logo from '../Logo';
+import Avatar from 'src/components/Avatar';
+import Logo from 'src/components/Logo';
 
 export default function Header() {
   return (
-    <AppBar position="static">
+    <AppBar position="static" sx={{ mb: 5 }}>
       <Container maxWidth="xl">
         <Toolbar
           disableGutters
