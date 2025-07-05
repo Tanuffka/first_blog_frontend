@@ -1,3 +1,11 @@
+import { Container } from '@mui/material';
+
+import Post from 'src/components/Post';
+
 export default function Home() {
-  return <div>Home page</div>;
+  return (
+    <Container maxWidth="sm">
+      <Post />
+    </Container>
+  );
 }
