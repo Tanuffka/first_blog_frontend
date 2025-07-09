@@ -6,6 +6,7 @@ import CssBaseline from '@mui/material/CssBaseline';
 
 import Router from './Router';
 import Header from './components/Header';
+import Sidebar from './components/Sidebar';
 
 function App() {
   const theme = useTheme();
