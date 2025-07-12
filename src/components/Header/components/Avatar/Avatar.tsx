@@ -6,7 +6,6 @@ import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import Menu from '@mui/material/Menu';
 import MuiAvatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 
@@ -42,9 +41,6 @@ export default function Avatar() {
       <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
         <IconButton
           size="large"
-          aria-label="account of current user"
-          aria-controls="menu-appbar"
-          aria-haspopup="true"
           color="inherit"
           onClick={handleOpenNavMenu}
         ></IconButton>
@@ -82,17 +78,6 @@ export default function Avatar() {
             </MenuItem>
           ))}
         </Menu>
-      </Box>
-      <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-        {pages.map((page) => (
-          <Button
-            key={page}
-            sx={{ my: 2, color: 'white', display: 'block' }}
-            onClick={handleCloseNavMenu}
-          >
-            {page}
-          </Button>
-        ))}
       </Box>
       <Box sx={{ flexGrow: 0 }}>
         <Tooltip title="Open settings">
