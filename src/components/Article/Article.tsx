@@ -3,16 +3,17 @@ import MuiCard from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 import MuiAvatar from '@mui/material/Avatar';
+import Grid from '@mui/material/Grid';
 
-import PostDate from './PostDate';
+import ArticleDate from './ArticleDate';
 
 const date = {
   createdAt: '2025-07-02T13:45:30Z',
 };
 
-export default function Post() {
+export default function Article() {
   return (
-    <Box sx={{ mb: 1 }}>
+    <Grid sx={{ display: 'flex', flexDirection: 'column', mb: 1 }}>
       <MuiCard variant="outlined">
         <Box
           sx={{
@@ -29,7 +30,7 @@ export default function Post() {
             </Box>
             <Box>
               <Typography variant="h5">Name Surname</Typography>
-              <PostDate createdAt={date.createdAt} />
+              <ArticleDate createdAt={date.createdAt} />
             </Box>
           </Box>
           <Box sx={{ pl: 6, pt: 1 }}>
@@ -46,6 +47,6 @@ export default function Post() {
           </Box>
         </CardContent>
       </MuiCard>
-    </Box>
+    </Grid>
   );
 }

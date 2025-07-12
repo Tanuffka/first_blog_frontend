@@ -1,10 +1,10 @@
 import Typography from '@mui/material/Typography';
 
-type PostDateProps = {
+type ArticleDateProps = {
   createdAt: string;
 };
 
-const PostDate = ({ createdAt }: PostDateProps) => {
+const ArticleDate = ({ createdAt }: ArticleDateProps) => {
   const date = new Date(createdAt);
 
   const formatted = date.toLocaleString(undefined, {
@@ -23,4 +23,4 @@ const PostDate = ({ createdAt }: PostDateProps) => {
   );
 };
 
-export default PostDate;
+export default ArticleDate;
