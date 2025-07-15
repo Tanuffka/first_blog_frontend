@@ -34,8 +34,7 @@ export default function Avatar() {
   return (
     <Box
       sx={{
-        display: 'flex',
-        alignItems: 'center',
+        display: { xs: 'none', md: 'none', alignItems: 'center' },
       }}
     >
       <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>

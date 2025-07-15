@@ -10,7 +10,7 @@ export default function Logo() {
         component="a"
         href="#app-bar-with-responsive-menu"
         sx={{
-          pr: 28,
+          mr: 31,
           display: { xs: 'none', md: 'flex' },
           fontFamily: 'monospace',
           fontWeight: 700,
