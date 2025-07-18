@@ -1,62 +1,113 @@
-import Paper from '@mui/material/Paper';
+import { Controller, FormProvider, useForm } from 'react-hook-form';
+import * as z from 'zod';
+import { zodResolver } from '@hookform/resolvers/zod';
+
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
-import Link from '@mui/material/Link';
+
+import AuthLayout from 'src/layouts/AuthLayout';
+
+const loginSchema = z.object({
+  username: z.string().min(6, 'Username must be at least 6 characters'),
+  email: z.email('Email must be valid'),
+  password: z.string().min(6, 'Password must be at least 6 characters'),
+});
 
 export default function Register() {
-  return (
-    <Paper
-      sx={{
-        maxWidth: '350px',
-        pt: 3,
-        mr: 67,
-        ml: 67,
-      }}
-    >
-      <Box
-        noValidate
-        component="form"
-        sx={{
-          '& .MuiTextField-root': { m: 1, width: '30ch' },
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-        }}
-        autoComplete="off"
-      >
-        <Typography
-          variant="body2"
-          sx={{ p: 2, fontSize: '18px', fontWeight: 'bold' }}
-        >
-          {' '}
-          Registration{' '}
-        </Typography>
+  const form = useForm({
+    defaultValues: {
+      username: '',
+      email: '',
+      password: '',
+    },
+    resolver: zodResolver(loginSchema),
+  });
 
-        <TextField required id="outlined-required" label="Name" />
-        <TextField required id="outlined-required" label="Email" />
-        <TextField
-          id="outlined-password-input"
-          label="Password"
-          type="password"
-          autoComplete="current-password"
-        />
-        <Button
-          type="submit"
-          variant="contained"
-          size="medium"
-          sx={{ mt: 1, mb: 2, width: '35ch' }}
+  const onSubmit = form.handleSubmit((data) => {
+    console.log(data);
+  });
+
+  return (
+    <AuthLayout
+      title="Register"
+      footerText="Already have an account?"
+      footerLink={{ to: '/login', content: 'Login' }}
+    >
+      <FormProvider {...form}>
+        <Box
+          noValidate
+          component="form"
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            width: '100%',
+            px: 6,
+          }}
+          autoComplete="off"
+          onSubmit={onSubmit}
         >
-          Register
-        </Button>
-        <Typography sx={{ pt: 1, pb: 3 }}>
-          Already have an account?{' '}
-          <Link href="#" underline="none">
-            Login
-          </Link>
-        </Typography>
-      </Box>
-    </Paper>
+          <Controller
+            name="username"
+            control={form.control}
+            render={({ field, formState: { errors } }) => (
+              <TextField
+                fullWidth
+                required
+                label="Username"
+                variant="outlined"
+                error={!!errors.username}
+                helperText={errors.username?.message}
+                sx={{ my: 1 }}
+                {...field}
+              />
+            )}
+          />
+          <Controller
+            name="email"
+            control={form.control}
+            render={({ field, formState: { errors } }) => (
+              <TextField
+                fullWidth
+                required
+                label="Email"
+                variant="outlined"
+                error={!!errors.email}
+                helperText={errors.email?.message}
+                sx={{ my: 1 }}
+                {...field}
+              />
+            )}
+          />
+          <Controller
+            name="password"
+            control={form.control}
+            render={({ field, formState: { errors } }) => (
+              <TextField
+                fullWidth
+                required
+                label="Password"
+                variant="outlined"
+                error={!!errors.password}
+                helperText={errors.password?.message}
+                type="password"
+                sx={{ my: 1 }}
+                {...field}
+              />
+            )}
+          />
+          <Button
+            fullWidth
+            type="submit"
+            variant="contained"
+            size="medium"
+            sx={{ mt: 1, mb: 2 }}
+          >
+            Register
+          </Button>
+        </Box>
+      </FormProvider>
+    </AuthLayout>
   );
 }
