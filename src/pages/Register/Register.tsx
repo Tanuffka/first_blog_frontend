@@ -5,28 +5,43 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
 
 import AuthLayout from 'src/layouts/AuthLayout';
+import InputPassword from 'src/components/InputPassword';
 
-const loginSchema = z.object({
-  username: z.string().min(6, 'Username must be at least 6 characters'),
-  email: z.email('Email must be valid'),
-  password: z.string().min(6, 'Password must be at least 6 characters'),
-});
+import { useRegister } from '../../hooks/useRegister';
+
+const loginSchema = z
+  .object({
+    firstname: z.string().min(2, 'Username must be at least 2 characters'),
+    lastname: z.string().min(2, 'Lastname must be at least 2 characters'),
+    email: z.email('Email must be valid'),
+    password: z.string().min(6, 'Password must be at least 6 characters'),
+    confirmPassword: z
+      .string()
+      .min(6, 'Password must be at least 6 characters'),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: 'Passwords do not match',
+    path: ['confirmPassword'],
+  });
 
 export default function Register() {
   const form = useForm({
     defaultValues: {
-      username: '',
+      firstname: '',
+      lastname: '',
       email: '',
       password: '',
+      confirmPassword: '',
     },
     resolver: zodResolver(loginSchema),
   });
 
-  const onSubmit = form.handleSubmit((data) => {
-    console.log(data);
-  });
+  const { errorMessages, isPending, register } = useRegister();
+
+  const onSubmit = form.handleSubmit(register);
 
   return (
     <AuthLayout
@@ -49,16 +64,32 @@ export default function Register() {
           onSubmit={onSubmit}
         >
           <Controller
-            name="username"
+            name="firstname"
             control={form.control}
             render={({ field, formState: { errors } }) => (
               <TextField
                 fullWidth
                 required
-                label="Username"
+                label="Firstname"
                 variant="outlined"
-                error={!!errors.username}
-                helperText={errors.username?.message}
+                error={!!errors.firstname}
+                helperText={errors.firstname?.message}
+                sx={{ my: 1 }}
+                {...field}
+              />
+            )}
+          />
+          <Controller
+            name="lastname"
+            control={form.control}
+            render={({ field, formState: { errors } }) => (
+              <TextField
+                fullWidth
+                required
+                label="Lastname"
+                variant="outlined"
+                error={!!errors.lastname}
+                helperText={errors.lastname?.message}
                 sx={{ my: 1 }}
                 {...field}
               />
@@ -84,7 +115,7 @@ export default function Register() {
             name="password"
             control={form.control}
             render={({ field, formState: { errors } }) => (
-              <TextField
+              <InputPassword
                 fullWidth
                 required
                 label="Password"
@@ -97,8 +128,31 @@ export default function Register() {
               />
             )}
           />
+          <Controller
+            name="confirmPassword"
+            control={form.control}
+            render={({ field, formState: { errors } }) => (
+              <InputPassword
+                fullWidth
+                required
+                label="Confirm password"
+                variant="outlined"
+                error={!!errors.confirmPassword}
+                helperText={errors.confirmPassword?.message}
+                type="password"
+                sx={{ my: 1 }}
+                {...field}
+              />
+            )}
+          />
+          {errorMessages?.map((message, index) => (
+            <Typography key={index} fontWeight={600} color="red" component="p">
+              {message}
+            </Typography>
+          ))}
           <Button
             fullWidth
+            disabled={isPending}
             type="submit"
             variant="contained"
             size="medium"

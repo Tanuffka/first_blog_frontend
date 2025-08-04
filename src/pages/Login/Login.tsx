@@ -4,9 +4,13 @@ import { zodResolver } from '@hookform/resolvers/zod';
 
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
+import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 
 import AuthLayout from 'src/layouts/AuthLayout';
+import InputPassword from 'src/components/InputPassword';
+
+import { useLogin } from '../../hooks/useLogin';
 
 const loginSchema = z.object({
   email: z.email('Email must be valid'),
@@ -22,9 +26,9 @@ export default function Login() {
     resolver: zodResolver(loginSchema),
   });
 
-  const onSubmit = form.handleSubmit((data) => {
-    console.log(data);
-  });
+  const { errorMessage, isPending, login } = useLogin();
+
+  const onSubmit = form.handleSubmit(login);
 
   return (
     <AuthLayout
@@ -34,7 +38,6 @@ export default function Login() {
     >
       <FormProvider {...form}>
         <Box
-          noValidate
           component="form"
           sx={{
             display: 'flex',
@@ -43,7 +46,6 @@ export default function Login() {
             width: '100%',
             px: 6,
           }}
-          autoComplete="off"
           onSubmit={onSubmit}
         >
           <Controller
@@ -66,21 +68,22 @@ export default function Login() {
             name="password"
             control={form.control}
             render={({ field, formState: { errors } }) => (
-              <TextField
+              <InputPassword
                 fullWidth
                 required
                 label="Password"
                 variant="outlined"
                 error={!!errors.password}
                 helperText={errors.password?.message}
-                type="password"
                 sx={{ my: 1 }}
                 {...field}
               />
             )}
           />
+          {errorMessage && <Typography>{errorMessage}</Typography>}
           <Button
             fullWidth
+            disabled={isPending}
             type="submit"
             variant="contained"
             size="medium"

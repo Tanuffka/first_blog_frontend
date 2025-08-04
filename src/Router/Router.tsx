@@ -6,6 +6,9 @@ import Login from 'src/pages/Login';
 import Register from 'src/pages/Register';
 import ResetPassword from 'src/pages/ResetPassword';
 import ForgotPassword from 'src/pages/ForgotPassword';
+import CreateArticle from 'src/pages/CreateArticle';
+
+import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute';
 
 export default function Router() {
   return (
@@ -16,6 +19,9 @@ export default function Router() {
         <Route path="register" element={<Register />} />
         <Route path="reset-password" element={<ResetPassword />} />
         <Route path="forgot-password" element={<ForgotPassword />} />
+        <Route element={<ProtectedRoute />}>
+          <Route path="create-article" element={<CreateArticle />} />
+        </Route>
       </Route>
     </Routes>
   );

@@ -3,17 +3,17 @@ import { Link } from 'react-router-dom';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 
-export default function LoginButton() {
+export default function RegisterButton() {
   return (
-    <Box sx={{ ml: 23, mr: 1, display: { xs: 'none', md: 'flex' } }}>
+    <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
       <Button
         component={Link}
         variant="text"
         color="inherit"
         type="submit"
-        to="/login"
+        to="/register"
       >
-        Login
+        Register
       </Button>
     </Box>
   );

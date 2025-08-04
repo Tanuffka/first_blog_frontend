@@ -7,12 +7,20 @@ import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
 
 import AuthLayout from 'src/layouts/AuthLayout';
+import InputPassword from 'src/components/InputPassword';
 
-const loginSchema = z.object({
-  password: z.string().min(6, 'Password must be at least 6 characters'),
-  newPassword: z.string().min(6, 'Password must be at least 6 characters'),
-  confirmPassword: z.string().min(6, 'Password does not match'),
-});
+const loginSchema = z
+  .object({
+    password: z.string().min(6, 'Password must be at least 6 characters'),
+    newPassword: z.string().min(6, 'Password must be at least 6 characters'),
+    confirmPassword: z
+      .string()
+      .min(6, 'Password must be at least 6 characters'),
+  })
+  .refine((data) => data.newPassword === data.confirmPassword, {
+    path: ['confirmPassword'],
+    message: 'Password does not match',
+  });
 
 export default function ResetPassword() {
   const form = useForm({
@@ -52,7 +60,7 @@ export default function ResetPassword() {
             name="password"
             control={form.control}
             render={({ field, formState: { errors } }) => (
-              <TextField
+              <InputPassword
                 fullWidth
                 required
                 label="Password"
@@ -69,7 +77,7 @@ export default function ResetPassword() {
             name="newPassword"
             control={form.control}
             render={({ field, formState: { errors } }) => (
-              <TextField
+              <InputPassword
                 fullWidth
                 required
                 label="New password"
@@ -86,7 +94,7 @@ export default function ResetPassword() {
             name="confirmPassword"
             control={form.control}
             render={({ field, formState: { errors } }) => (
-              <TextField
+              <InputPassword
                 fullWidth
                 required
                 label="Confirm password"
