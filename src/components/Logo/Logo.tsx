@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom';
+
 import { Box } from '@mui/material';
 import Typography from '@mui/material/Typography';
 
@@ -7,29 +9,11 @@ export default function Logo() {
       <Typography
         noWrap
         variant="h6"
-        component="a"
-        href="#app-bar-with-responsive-menu"
+        component={Link}
+        to={'/'}
         sx={{
-          pr: 28,
+          mr: 31,
           display: { xs: 'none', md: 'flex' },
-          fontFamily: 'monospace',
-          fontWeight: 700,
-          letterSpacing: '.3rem',
-          color: 'inherit',
-          textDecoration: 'none',
-        }}
-      >
-        FIRST BLOG
-      </Typography>
-      <Typography
-        noWrap
-        variant="h5"
-        component="a"
-        href="#app-bar-with-responsive-menu"
-        sx={{
-          mr: 2,
-          display: { xs: 'flex', md: 'none' },
-          flexGrow: 1,
           fontFamily: 'monospace',
           fontWeight: 700,
           letterSpacing: '.3rem',

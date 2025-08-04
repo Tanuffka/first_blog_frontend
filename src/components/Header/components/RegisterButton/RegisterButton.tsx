@@ -5,24 +5,23 @@ import Box from '@mui/material/Box';
 
 import { useSession } from 'src/stores/useSession';
 
-export default function CreateArticleButton() {
+export default function RegisterButton() {
   const { isAuthenticated } = useSession();
 
-  if (!isAuthenticated) {
+  if (isAuthenticated) {
     return null;
   }
 
   return (
-    <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
+    <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
       <Button
         component={Link}
-        to="/create-article"
         variant="text"
         color="inherit"
         type="submit"
-        sx={{ mx: 5 }}
+        to="/register"
       >
-        Create article
+        Register
       </Button>
     </Box>
   );

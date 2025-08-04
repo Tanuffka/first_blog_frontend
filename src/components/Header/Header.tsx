@@ -1,11 +1,14 @@
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import Container from '@mui/material/Container';
+import Grid from '@mui/material/Grid';
 
 import Avatar from 'src/components/Header/components/Avatar';
 import Logo from 'src/components/Logo';
 
 import CreateArticleButton from './components/CreateArticleButton';
+import RegisterButton from './components/RegisterButton';
+import LoginButton from './components/LoginButton';
 
 export default function Header() {
   return (
@@ -16,10 +19,14 @@ export default function Header() {
       }}
     >
       <Container maxWidth="md">
-        <Toolbar disableGutters>
+        <Toolbar disableGutters sx={{ justifyContent: 'space-between' }}>
           <Logo />
-          <CreateArticleButton />
-          <Avatar />
+          <Grid container>
+            <LoginButton />
+            <RegisterButton />
+            <CreateArticleButton />
+            <Avatar />
+          </Grid>
         </Toolbar>
       </Container>
     </AppBar>
