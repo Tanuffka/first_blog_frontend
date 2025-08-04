@@ -17,7 +17,7 @@ export function useCreateArticle() {
   >({
     mutationFn: (data: MutationReqData) => {
       return privateApi.post<{ title: string; content: string; _id: string }>(
-        '/api/auth/articles',
+        '/api/articles',
         data
       );
     },
