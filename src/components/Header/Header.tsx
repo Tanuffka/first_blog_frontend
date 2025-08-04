@@ -5,15 +5,12 @@ import Grid from '@mui/material/Grid';
 
 import Avatar from 'src/components/Header/components/Avatar';
 import Logo from 'src/components/Logo';
-import { useSession } from 'src/stores/useSession';
 
 import CreateArticleButton from './components/CreateArticleButton';
 import RegisterButton from './components/RegisterButton';
 import LoginButton from './components/LoginButton';
 
 export default function Header() {
-  const { isAuthenticated } = useSession();
-
   return (
     <AppBar
       position="static"
@@ -22,13 +19,13 @@ export default function Header() {
       }}
     >
       <Container maxWidth="md">
-        <Toolbar disableGutters={true} sx={{ justifyContent: 'space-between' }}>
+        <Toolbar disableGutters sx={{ justifyContent: 'space-between' }}>
           <Logo />
           <Grid container>
-            {!isAuthenticated && <LoginButton />}
-            {!isAuthenticated && <RegisterButton />}
-            {isAuthenticated && <CreateArticleButton />}
-            {isAuthenticated && <Avatar />}
+            <LoginButton />
+            <RegisterButton />
+            <CreateArticleButton />
+            <Avatar />
           </Grid>
         </Toolbar>
       </Container>

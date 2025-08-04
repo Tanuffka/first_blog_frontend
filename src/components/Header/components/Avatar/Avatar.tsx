@@ -17,7 +17,7 @@ export default function Avatar() {
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
 
   const navigate = useNavigate();
-  const { logout } = useSession();
+  const { logout, isAuthenticated } = useSession();
 
   const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElUser(event.currentTarget);
@@ -28,10 +28,15 @@ export default function Avatar() {
   };
 
   const handleLogout = () => {
-    logout();
-    handleCloseUserMenu();
-    navigate('/login');
+    logout().then(() => {
+      handleCloseUserMenu();
+      navigate('/login');
+    });
   };
+
+  if (!isAuthenticated) {
+    return null;
+  }
 
   return (
     <Box

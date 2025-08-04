@@ -3,7 +3,6 @@ import * as z from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 
 import Button from '@mui/material/Button';
-import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
 
 import AuthLayout from 'src/layouts/AuthLayout';
@@ -11,23 +10,25 @@ import InputPassword from 'src/components/InputPassword';
 
 const loginSchema = z
   .object({
-    password: z.string().min(6, 'Password must be at least 6 characters'),
+    currentPassword: z
+      .string()
+      .min(6, 'Password must be at least 6 characters'),
     newPassword: z.string().min(6, 'Password must be at least 6 characters'),
-    confirmPassword: z
+    confirmNewPassword: z
       .string()
       .min(6, 'Password must be at least 6 characters'),
   })
-  .refine((data) => data.newPassword === data.confirmPassword, {
-    path: ['confirmPassword'],
+  .refine((data) => data.newPassword === data.confirmNewPassword, {
+    path: ['confirmNewPassword'],
     message: 'Password does not match',
   });
 
 export default function ResetPassword() {
   const form = useForm({
     defaultValues: {
-      password: '',
+      currentPassword: '',
       newPassword: '',
-      confirmPassword: '',
+      confirmNewPassword: '',
     },
     resolver: zodResolver(loginSchema),
   });
@@ -57,16 +58,16 @@ export default function ResetPassword() {
           onSubmit={onSubmit}
         >
           <Controller
-            name="password"
+            name="currentPassword"
             control={form.control}
             render={({ field, formState: { errors } }) => (
               <InputPassword
                 fullWidth
                 required
-                label="Password"
+                label="Current Password"
                 variant="outlined"
-                error={!!errors.password}
-                helperText={errors.password?.message}
+                error={!!errors.currentPassword}
+                helperText={errors.currentPassword?.message}
                 type="password"
                 sx={{ my: 1 }}
                 {...field}
@@ -91,16 +92,16 @@ export default function ResetPassword() {
             )}
           />
           <Controller
-            name="confirmPassword"
+            name="confirmNewPassword"
             control={form.control}
             render={({ field, formState: { errors } }) => (
               <InputPassword
                 fullWidth
                 required
-                label="Confirm password"
+                label="Confirm new password"
                 variant="outlined"
-                error={!!errors.confirmPassword}
-                helperText={errors.confirmPassword?.message}
+                error={!!errors.confirmNewPassword}
+                helperText={errors.confirmNewPassword?.message}
                 type="password"
                 sx={{ my: 1 }}
                 {...field}

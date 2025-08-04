@@ -26,7 +26,7 @@ export default function Login() {
     resolver: zodResolver(loginSchema),
   });
 
-  const { errorMessage, isPending, login } = useLogin();
+  const { errorMessages, isPending, login } = useLogin();
 
   const onSubmit = form.handleSubmit(login);
 
@@ -80,7 +80,11 @@ export default function Login() {
               />
             )}
           />
-          {errorMessage && <Typography>{errorMessage}</Typography>}
+          {errorMessages?.map((message, index) => (
+            <Typography key={index} fontWeight={600} color="red" component="p">
+              {message}
+            </Typography>
+          ))}
           <Button
             fullWidth
             disabled={isPending}

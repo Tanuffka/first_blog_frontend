@@ -2,16 +2,22 @@ import { useMutation } from '@tanstack/react-query';
 
 import { privateApi } from 'src/config/api';
 
+import type { AxiosError, AxiosResponse } from 'axios';
+
 export interface MutationReqData {
   title: string;
   content: string;
 }
 
 export function useCreateArticle() {
-  const createArticleMutation = useMutation({
+  const createArticleMutation = useMutation<
+    AxiosResponse<{ _id: string }>,
+    AxiosError<{ message: string[] }>,
+    MutationReqData
+  >({
     mutationFn: (data: MutationReqData) => {
-      return privateApi.post<{ title: string; content: string }>(
-        '/api/articles',
+      return privateApi.post<{ title: string; content: string; _id: string }>(
+        '/api/auth/articles',
         data
       );
     },
@@ -24,14 +30,13 @@ export function useCreateArticle() {
     createArticleMutation.mutate(data);
   };
 
-  const errorMessage = createArticleMutation.isError
-    ? createArticleMutation.error.message
+  const errorMessages = createArticleMutation.isError
+    ? createArticleMutation.error.response?.data.message
     : undefined;
-
   return {
     article: createArticleMutation.data?.data,
     createArticle,
     isPending: createArticleMutation.isPending,
-    errorMessage,
+    errorMessages,
   };
 }

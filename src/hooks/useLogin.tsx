@@ -4,6 +4,8 @@ import { useMutation } from '@tanstack/react-query';
 import { publicApi } from 'src/config/api';
 import { useSession } from 'src/stores/useSession';
 
+import type { AxiosError, AxiosResponse } from 'axios';
+
 export interface LoginMutationReqData {
   email: string;
   password: string;
@@ -14,7 +16,11 @@ export function useLogin() {
 
   const session = useSession();
 
-  const loginMutation = useMutation({
+  const loginMutation = useMutation<
+    AxiosResponse<{ access_token: string }>,
+    AxiosError<{ message: string[] }>,
+    LoginMutationReqData
+  >({
     mutationFn: (data: LoginMutationReqData) => {
       return publicApi.post<{ access_token: string }>('/api/auth/login', data);
     },
@@ -28,13 +34,13 @@ export function useLogin() {
     loginMutation.mutate(data);
   };
 
-  const errorMessage = loginMutation.isError
-    ? loginMutation.error.message
+  const errorMessages = loginMutation.isError
+    ? loginMutation.error.response?.data.message
     : undefined;
 
   return {
     login,
     isPending: loginMutation.isPending,
-    errorMessage,
+    errorMessages,
   };
 }

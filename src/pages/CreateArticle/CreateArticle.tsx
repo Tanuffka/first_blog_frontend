@@ -1,6 +1,6 @@
 import { Button } from '@mui/material';
 
-import { useCreateArticle } from './useCreateArticle';
+import { useCreateArticle } from 'src/hooks/useCreateArticle';
 
 export default function CreateArticle() {
   const { createArticle } = useCreateArticle();
