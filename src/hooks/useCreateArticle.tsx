@@ -1,4 +1,5 @@
 import { useMutation } from '@tanstack/react-query';
+import { useNavigate } from 'react-router-dom';
 
 import { privateApi } from 'src/config/api';
 
@@ -10,19 +11,24 @@ export interface MutationReqData {
 }
 
 export function useCreateArticle() {
+  const navigate = useNavigate();
+
   const createArticleMutation = useMutation<
-    AxiosResponse<{ _id: string }>,
+    AxiosResponse<{
+      title: string;
+      content: string;
+    }>,
     AxiosError<{ message: string[] }>,
     MutationReqData
   >({
     mutationFn: (data: MutationReqData) => {
-      return privateApi.post<{ title: string; content: string; _id: string }>(
-        '/api/articles',
-        data
-      );
+      return privateApi.post<{
+        title: string;
+        content: string;
+      }>('/api/articles', data);
     },
-    onSuccess({ data }) {
-      console.log(data);
+    onSuccess() {
+      navigate('/');
     },
   });
 
