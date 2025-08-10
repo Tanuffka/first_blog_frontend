@@ -10,12 +10,12 @@ import Typography from '@mui/material/Typography';
 import ArticleLayout from 'src/layouts/ArticleLayout/ArticleLayout';
 import { useCreateArticle } from 'src/hooks/useCreateArticle';
 
-export default function CreateArticle() {
-  const articleSchema = z.object({
-    title: z.string().min(2, 'Title must be at least 2 characters'),
-    content: z.string().min(10, 'Content must be at least 10 characters'),
-  });
+const articleSchema = z.object({
+  title: z.string().min(2, 'Title must be at least 2 characters'),
+  content: z.string().min(10, 'Content must be at least 10 characters'),
+});
 
+export default function CreateArticle() {
   const form = useForm({
     defaultValues: {
       title: '',
@@ -23,9 +23,11 @@ export default function CreateArticle() {
     },
     resolver: zodResolver(articleSchema),
   });
+
   const { createArticle, isPending, errorMessages } = useCreateArticle();
 
   const onSubmit = form.handleSubmit(createArticle);
+
   return (
     <ArticleLayout title="Create article">
       <FormProvider {...form}>

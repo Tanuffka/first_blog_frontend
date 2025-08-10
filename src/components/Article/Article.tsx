@@ -1,5 +1,5 @@
 import Box from '@mui/material/Box';
-import MuiCard from '@mui/material/Card';
+import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 import MuiAvatar from '@mui/material/Avatar';
@@ -7,14 +7,39 @@ import Grid from '@mui/material/Grid';
 
 import ArticleDate from './ArticleDate';
 
-const date = {
-  createdAt: '2025-07-02T13:45:30Z',
-};
+interface UserApiSchema {
+  _id: string;
+  firstname: string;
+  lastname: string;
+}
 
-export default function Article() {
+interface ArticleProps {
+  _id: string;
+  title: string;
+  content: string;
+  author: UserApiSchema;
+  tags: string[];
+  viewsCount: number;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export default function Article({
+  title,
+  content,
+  author,
+  createdAt,
+}: ArticleProps) {
   return (
-    <Grid sx={{ display: 'flex', flexDirection: 'column', mb: 1 }}>
-      <MuiCard variant="outlined">
+    <Grid
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        mb: 1,
+        width: '100%',
+      }}
+    >
+      <Card variant="outlined">
         <Box
           sx={{
             height: '200px',
@@ -29,24 +54,16 @@ export default function Article() {
               <MuiAvatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
             </Box>
             <Box>
-              <Typography variant="h5">Name Surname</Typography>
-              <ArticleDate createdAt={date.createdAt} />
+              <Typography variant="h5">{`${author.firstname} ${author.lastname}`}</Typography>
+              <ArticleDate createdAt={createdAt} />
             </Box>
           </Box>
           <Box sx={{ pl: 6, pt: 1 }}>
-            <Typography variant="h6">Name of Article</Typography>
-            <Typography variant="body2">
-              Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-              Dignissimos atque laudantium quod dolorem sit cupiditate provident
-              quas natus, obcaecati alias quo explicabo magni ducimus eaque rem
-              dolore accusamus earum voluptas. Lorem ipsum dolor sit amet
-              consectetur, adipisicing elit. Dignissimos atque laudantium quod
-              dolorem sit cupiditate provident quas natus, obcaecati alias quo
-              explicabo magni ducimus eaque rem dolore accusamus earum voluptas.
-            </Typography>
+            <Typography variant="h6">{title}</Typography>
+            <Typography variant="body2">{content}</Typography>
           </Box>
         </CardContent>
-      </MuiCard>
+      </Card>
     </Grid>
   );
 }
