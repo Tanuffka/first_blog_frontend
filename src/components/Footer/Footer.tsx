@@ -6,13 +6,13 @@ export default function Footer() {
   return (
     <Grid
       container
-      justifyContent={'center'}
       sx={{
         py: 5,
         mt: 5,
         borderWidth: 1,
         borderTopStyle: 'dashed',
         borderColor: alpha('#000000', 0.12),
+        justifyContent: 'center',
       }}
     >
       <Typography variant="caption" color={colors.grey[500]}>

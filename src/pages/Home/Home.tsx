@@ -5,31 +5,15 @@ import Grid from '@mui/material/Grid';
 
 import Article from 'src/components/Article';
 import Sidebar from 'src/components/Sidebar';
-import { publicApi } from 'src/config/api';
-
-interface UserApiSchema {
-  _id: string;
-  firstname: string;
-  lastname: string;
-}
-
-interface ArticleApiSchema {
-  _id: string;
-  title: string;
-  content: string;
-  author: UserApiSchema;
-  tags: string[];
-  viewsCount: number;
-  createdAt: string;
-  updatedAt: string;
-}
+import { publicApi } from 'src/shared/api/api';
+import { type ArticleApiResponseSchema } from 'src/shared/api';
 
 export default function Home() {
-  const [articles, setArticles] = useState<ArticleApiSchema[]>([]);
+  const [articles, setArticles] = useState<ArticleApiResponseSchema[]>([]);
 
   useEffect(() => {
     publicApi
-      .get<ArticleApiSchema[]>('/api/articles')
+      .get<ArticleApiResponseSchema[]>('/api/articles')
       .then((response) => response.data)
       .then((articles) => setArticles(articles));
   }, []);
