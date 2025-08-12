@@ -1,7 +1,7 @@
 import { useMutation } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 
-import { privateApi } from 'src/shared/api/api';
+import { privateApi } from 'src/shared/api';
 
 import type { AxiosError, AxiosResponse } from 'axios';
 

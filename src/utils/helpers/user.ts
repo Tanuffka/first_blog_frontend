@@ -5,6 +5,6 @@ export function getAcronyms(...parts: string[]): string {
     .toUpperCase();
 }
 
-export function getFullname(...fullname: string[]): string {
-  return fullname.join(' ').toUpperCase();
+export function getFullName(firstname: string, lastname: string): string {
+  return `${firstname} ${lastname}`;
 }

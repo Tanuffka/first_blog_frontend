@@ -5,7 +5,7 @@ import Typography from '@mui/material/Typography';
 import MuiAvatar from '@mui/material/Avatar';
 import Tooltip from '@mui/material/Tooltip';
 
-import { getAcronyms, getFullname } from 'src/utils/helpers/user';
+import { getAcronyms, getFullName } from 'src/utils/helpers/user';
 import { type ArticleApiResponseSchema } from 'src/shared/api';
 
 import ArticleDate from './ArticleDate';
@@ -38,7 +38,7 @@ export default function Article({
           </Box>
           <Box>
             <Typography>
-              {getFullname(author.firstname, author.lastname)}
+              {getFullName(author.firstname, author.lastname)}
             </Typography>
             <ArticleDate createdAt={createdAt} />
           </Box>

@@ -5,7 +5,7 @@ import Grid from '@mui/material/Grid';
 
 import Article from 'src/components/Article';
 import Sidebar from 'src/components/Sidebar';
-import { publicApi } from 'src/shared/api/api';
+import { publicApi } from 'src/shared/api';
 import { type ArticleApiResponseSchema } from 'src/shared/api';
 
 export default function Home() {
