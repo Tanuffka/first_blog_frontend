@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import Cookies from 'universal-cookie';
 
-import { privateApi, publicApi } from 'src/config/api';
+import { privateApi, publicApi } from 'src/shared/api';
 
 const ACCESS_TOKEN = 'access_token';
 

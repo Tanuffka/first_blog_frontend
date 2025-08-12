@@ -12,6 +12,7 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 
 import { useSession } from 'src/stores/useSession';
+// import { getAcronyms } from 'src/utils/helpers/user';
 
 export default function Avatar() {
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
@@ -47,7 +48,7 @@ export default function Avatar() {
       <Box sx={{ flexGrow: 0 }}>
         <Tooltip title="Open settings">
           <IconButton sx={{ p: 0 }} onClick={handleOpenUserMenu}>
-            <MuiAvatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+            <MuiAvatar alt="FV" src="/static/images/avatar/2.jpg" />
           </IconButton>
         </Tooltip>
         <Menu
