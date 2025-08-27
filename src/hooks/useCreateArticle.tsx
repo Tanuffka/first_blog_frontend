@@ -22,10 +22,7 @@ export function useCreateArticle() {
     MutationReqData
   >({
     mutationFn: (data: MutationReqData) => {
-      return privateApi.post<{
-        title: string;
-        content: string;
-      }>('/api/articles', data);
+      return privateApi.post('/api/articles', data);
     },
     onSuccess() {
       navigate('/');
@@ -39,6 +36,7 @@ export function useCreateArticle() {
   const errorMessages = createArticleMutation.isError
     ? createArticleMutation.error.response?.data.message
     : undefined;
+
   return {
     article: createArticleMutation.data?.data,
     createArticle,

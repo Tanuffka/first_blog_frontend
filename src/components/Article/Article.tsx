@@ -19,7 +19,7 @@ export default function Article({
   createdAt,
 }: ArticleProps) {
   return (
-    <Card variant="outlined">
+    <Card variant="outlined" sx={{ width: '100%' }}>
       <Box
         sx={{
           height: '200px',
