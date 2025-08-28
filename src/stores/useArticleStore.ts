@@ -59,6 +59,7 @@ export const useArticleStore = create<ArticleState>((set) => ({
       .finally(() => set({ isCreating: false }));
   },
 
+  // example how to use with try catch
   // fetchAllArticles: async () => {
   //   set({ isLoading: true });
   //   try {
