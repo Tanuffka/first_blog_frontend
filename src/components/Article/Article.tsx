@@ -11,7 +11,7 @@ import Button from '@mui/material/Button';
 import { getAcronyms, getFullName } from 'src/utils/helpers/user';
 import { type ArticleApiResponseSchema } from 'src/shared/api';
 
-import ArticleDate from './ArticleDate';
+import Date from '../Date/Date';
 
 type ArticleProps = ArticleApiResponseSchema;
 
@@ -61,7 +61,7 @@ export default function Article({
             <Typography>
               {getFullName(author.firstname, author.lastname)}
             </Typography>
-            <ArticleDate createdAt={createdAt} />
+            <Date createdAt={createdAt} />
           </Box>
         </Box>
         <Box sx={{ mt: 2, width: '100%' }}>

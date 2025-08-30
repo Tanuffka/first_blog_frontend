@@ -9,7 +9,7 @@ import Grid from '@mui/material/Grid';
 import CircularProgress from '@mui/material/CircularProgress';
 
 import { useFetchArticle } from 'src/hooks/useFetchArticle';
-import ArticleDate from 'src/components/Article/ArticleDate';
+import Date from 'src/components/Date/Date';
 import { getAcronyms, getFullName } from 'src/utils/helpers/user';
 
 export default function ViewArticle() {
@@ -41,7 +41,7 @@ export default function ViewArticle() {
           width: '100%',
           display: 'flex',
           flexDirection: 'column',
-          height: '600px',
+          minHeight: '600px',
         }}
       >
         <Box
@@ -58,35 +58,31 @@ export default function ViewArticle() {
         >
           <img src="/images/placeholder-image.png" alt="placeholder image" />
         </Box>
-        <Box sx={{ p: 6 }}>
-          <Box sx={{ display: 'flex', alignItems: 'center' }}>
-            <Box sx={{ pr: 1 }}>
-              <MuiAvatar
-                alt={getAcronyms(
-                  article.author.firstname,
-                  article.author.lastname
-                )}
-                src="/static/images/avatar/2.jpg"
-              />
-            </Box>
+        <Grid container flexDirection="column" spacing={2} p={6}>
+          <Grid container alignItems="center" spacing={2}>
+            <MuiAvatar
+              alt={getAcronyms(
+                article.author.firstname,
+                article.author.lastname
+              )}
+              src="/static/images/avatar/2.jpg"
+            />
             <Box>
               <Typography>
                 {getFullName(article.author.firstname, article.author.lastname)}
               </Typography>
-              <ArticleDate createdAt={article.createdAt} />
+              <Date createdAt={article.createdAt} />
             </Box>
-          </Box>
-          <Box sx={{ mt: 2, width: '100%' }}>
-            <Box position="relative">
-              <Typography variant="h6" component="h1">
-                {article.title}
-              </Typography>
-            </Box>
-            <Typography sx={{ mt: 2 }} variant="body2">
-              {article.content}
+          </Grid>
+          <Grid>
+            <Typography variant="h6" component="h1">
+              {article.title}
             </Typography>
-          </Box>
-        </Box>
+          </Grid>
+          <Grid>
+            <Typography variant="body2">{article.content}</Typography>
+          </Grid>
+        </Grid>
       </Paper>
     </Container>
   );
