@@ -7,13 +7,13 @@ import CircularProgress from '@mui/material/CircularProgress';
 import Article from 'src/components/Article';
 import Sidebar from 'src/components/Sidebar';
 // import { useArticleStore } from 'src/stores/useArticleStore';
-import { useFetchArtcles } from 'src/hooks/useFetchArticles';
+import { useFetchArticles } from 'src/hooks/useFetchArticles';
 
 export default function Home() {
   // const articles = useArticleStore((state) => state.articles);
   // const fetchAllArticles = useArticleStore((state) => state.fetchAllArticles);
   // const isLoading = useArticleStore((state) => state.isLoading);
-  const { data: articles = [], isLoading } = useFetchArtcles();
+  const { data: articles = [], isLoading } = useFetchArticles();
 
   useEffect(() => {
     // fetchAllArticles();
