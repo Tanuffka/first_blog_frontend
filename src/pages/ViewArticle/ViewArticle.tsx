@@ -9,7 +9,7 @@ import Grid from '@mui/material/Grid';
 import CircularProgress from '@mui/material/CircularProgress';
 
 import { useFetchArticle } from 'src/hooks/useFetchArticle';
-import Date from 'src/components/Date/Date';
+import Date from 'src/components/Date';
 import { getAcronyms, getFullName } from 'src/utils/helpers/user';
 
 export default function ViewArticle() {

@@ -10,8 +10,7 @@ import Button from '@mui/material/Button';
 
 import { getAcronyms, getFullName } from 'src/utils/helpers/user';
 import { type ArticleApiResponseSchema } from 'src/shared/api';
-
-import Date from '../Date/Date';
+import Date from 'src/components/Date';
 
 type ArticleProps = ArticleApiResponseSchema;
 
