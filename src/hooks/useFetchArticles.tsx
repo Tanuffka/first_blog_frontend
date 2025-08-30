@@ -3,7 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 import { publicApi } from 'src/shared/api';
 import { type ArticleApiResponseSchema } from 'src/shared/api';
 
-export function useFetchArtcles() {
+export function useFetchArticles() {
   return useQuery({
     queryKey: ['articles'],
     queryFn: () =>

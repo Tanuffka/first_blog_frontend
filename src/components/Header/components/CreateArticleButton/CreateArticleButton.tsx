@@ -16,7 +16,7 @@ export default function CreateArticleButton() {
     <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
       <Button
         component={Link}
-        to="/create-article"
+        to="articles/create"
         variant="text"
         color="inherit"
         type="submit"

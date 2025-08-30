@@ -1,9 +1,12 @@
+import { Link } from 'react-router-dom';
+
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 import MuiAvatar from '@mui/material/Avatar';
 import Tooltip from '@mui/material/Tooltip';
+import Button from '@mui/material/Button';
 
 import { getAcronyms, getFullName } from 'src/utils/helpers/user';
 import { type ArticleApiResponseSchema } from 'src/shared/api';
@@ -13,6 +16,7 @@ import ArticleDate from './ArticleDate';
 type ArticleProps = ArticleApiResponseSchema;
 
 export default function Article({
+  _id,
   title,
   content,
   author,
@@ -22,11 +26,28 @@ export default function Article({
     <Card variant="outlined" sx={{ width: '100%' }}>
       <Box
         sx={{
+          position: 'relative',
           height: '200px',
           img: { width: '100%', height: '100%', objectFit: 'cover' },
         }}
       >
-        <img src="src/assets/placeholder-image.png" alt="placeholder image" />
+        <Button
+          component={Link}
+          to={`articles/${_id}`}
+          variant="outlined"
+          size="small"
+          type="submit"
+          sx={{
+            position: 'absolute',
+            top: 15,
+            right: 15,
+            borderWidth: 2,
+            fontWeight: 800,
+          }}
+        >
+          View
+        </Button>
+        <img src="/images/placeholder-image.png" alt="placeholder image" />
       </Box>
       <CardContent sx={{ p: 4, pb: 6 }}>
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
