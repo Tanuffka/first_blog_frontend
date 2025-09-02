@@ -18,6 +18,11 @@ export default function EditArticle() {
   const navigate = useNavigate();
 
   const { data: article, isLoading } = useFetchArticle(id!);
+  const {
+    updateArticle,
+    isPending: isUpdating,
+    errorMessages,
+  } = useUpdateArticle(id!);
 
   const form = useForm({
     defaultValues: {
@@ -26,21 +31,15 @@ export default function EditArticle() {
     },
   });
 
-  const handleCancel = () => {
-    navigate(`/articles/${id}`);
-  };
-
-  const {
-    updateArticle,
-    isPending: isUpdating,
-    errorMessages,
-  } = useUpdateArticle(id!);
+  const { reset } = form;
 
   const onSubmit = form.handleSubmit((data) => {
     updateArticle(data);
   });
 
-  const { reset } = form;
+  const handleCancel = () => {
+    navigate(`/articles/${id}`);
+  };
 
   useEffect(() => {
     if (!article) {
@@ -111,8 +110,6 @@ export default function EditArticle() {
               size="medium"
               sx={{
                 maxWidth: 200,
-                justifySelf: 'flex-end',
-                alignSelf: 'flex-end',
               }}
               onClick={handleCancel}
             >
@@ -126,8 +123,6 @@ export default function EditArticle() {
               size="medium"
               sx={{
                 maxWidth: 200,
-                justifySelf: 'flex-end',
-                alignSelf: 'flex-end',
               }}
             >
               Update
