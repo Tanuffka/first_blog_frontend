@@ -1,4 +1,5 @@
 import { useParams } from 'react-router';
+import { Link } from 'react-router-dom';
 
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
@@ -7,6 +8,7 @@ import Typography from '@mui/material/Typography';
 import MuiAvatar from '@mui/material/Avatar';
 import Grid from '@mui/material/Grid';
 import CircularProgress from '@mui/material/CircularProgress';
+import Button from '@mui/material/Button';
 
 import { useFetchArticle } from 'src/hooks/useFetchArticle';
 import Date from 'src/components/Date';
@@ -31,11 +33,24 @@ export default function ViewArticle() {
 
   return (
     <Container maxWidth="md">
-      <Box sx={{ py: 3, px: 6 }}>
+      <Grid container sx={{ justifyContent: 'space-between', py: 3, px: 6 }}>
         <Typography variant="h5" component="h1" fontWeight={500}>
           View
         </Typography>
-      </Box>
+        <Button
+          component={Link}
+          to={`/articles/${id}/edit`}
+          variant="outlined"
+          size="small"
+          type="submit"
+          sx={{
+            borderWidth: 2,
+            fontWeight: 800,
+          }}
+        >
+          Edit
+        </Button>
+      </Grid>
       <Paper
         sx={{
           width: '100%',
@@ -56,6 +71,22 @@ export default function ViewArticle() {
             },
           }}
         >
+          {/* <Button
+            component={Link}
+            to={`/articles/${id}/edit`}
+            variant="outlined"
+            size="small"
+            type="submit"
+            sx={{
+              position: 'absolute',
+              top: 15,
+              right: 15,
+              borderWidth: 2,
+              fontWeight: 800,
+            }}
+          >
+            Edit
+          </Button> */}
           <img src="/images/placeholder-image.png" alt="placeholder image" />
         </Box>
         <Grid container flexDirection="column" spacing={2} p={6}>

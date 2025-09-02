@@ -8,6 +8,7 @@ import ResetPassword from 'src/pages/ResetPassword';
 import ForgotPassword from 'src/pages/ForgotPassword';
 import CreateArticle from 'src/pages/CreateArticle';
 import ViewArticle from 'src/pages/ViewArticle';
+import EditArticle from 'src/pages/EditArticle';
 
 import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute';
 
@@ -26,6 +27,7 @@ export default function Router() {
 
           <Route element={<ProtectedRoute />}>
             <Route path="create" element={<CreateArticle />} />
+            <Route path=":id/edit" element={<EditArticle />} />
           </Route>
         </Route>
       </Route>
