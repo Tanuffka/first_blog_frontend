@@ -1,6 +1,8 @@
+import { useEffect } from 'react';
+
+import { useNavigate } from 'react-router-dom';
 import { Controller, FormProvider, useForm } from 'react-hook-form';
-import * as z from 'zod';
-import { zodResolver } from '@hookform/resolvers/zod';
+import { useParams } from 'react-router';
 
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
@@ -8,34 +10,50 @@ import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 
 import ArticleLayout from 'src/layouts/ArticleLayout/ArticleLayout';
-import { useCreateArticle } from 'src/hooks/useCreateArticle';
+import { useFetchArticle } from 'src/hooks/useFetchArticle';
+import { useUpdateArticle } from 'src/hooks/useUpdateArticle';
 
-const articleSchema = z.object({
-  title: z.string().min(2, 'Title must be at least 2 characters'),
-  content: z.string().min(10, 'Content must be at least 10 characters'),
-});
+export default function EditArticle() {
+  const { id } = useParams<{ id: string }>();
+  const navigate = useNavigate();
 
-export default function CreateArticle() {
+  const { data: article, isLoading } = useFetchArticle(id!);
+  const {
+    updateArticle,
+    isPending: isUpdating,
+    errorMessages,
+  } = useUpdateArticle(id!);
+
   const form = useForm({
     defaultValues: {
       title: '',
       content: '',
     },
-    resolver: zodResolver(articleSchema),
   });
 
-  const {
-    createArticle,
-    isPending: isCreating,
-    errorMessages,
-  } = useCreateArticle();
+  const { reset } = form;
 
   const onSubmit = form.handleSubmit((data) => {
-    createArticle(data);
+    updateArticle(data);
   });
 
+  const handleCancel = () => {
+    navigate(`/articles/${id}`);
+  };
+
+  useEffect(() => {
+    if (!article) {
+      return;
+    }
+
+    reset({
+      title: article.title,
+      content: article.content,
+    });
+  }, [article, reset]);
+
   return (
-    <ArticleLayout title="Create article">
+    <ArticleLayout title="Edit article">
       <FormProvider {...form}>
         <Grid
           noValidate
@@ -84,16 +102,30 @@ export default function CreateArticle() {
               {message}
             </Typography>
           ))}
+
           <Grid container justifyContent="space-between">
             <Button
               fullWidth
-              disabled={isCreating}
+              variant="outlined"
+              size="medium"
+              sx={{
+                maxWidth: 200,
+              }}
+              onClick={handleCancel}
+            >
+              Cancel
+            </Button>
+            <Button
+              fullWidth
+              loading={isLoading || isUpdating}
               type="submit"
               variant="contained"
               size="medium"
-              sx={{ maxWidth: 200 }}
+              sx={{
+                maxWidth: 200,
+              }}
             >
-              Create
+              Update
             </Button>
           </Grid>
         </Grid>
