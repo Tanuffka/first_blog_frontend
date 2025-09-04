@@ -87,7 +87,7 @@ export default function Login() {
           ))}
           <Button
             fullWidth
-            disabled={isPending}
+            loading={isPending}
             type="submit"
             variant="contained"
             size="medium"

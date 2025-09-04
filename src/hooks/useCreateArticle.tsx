@@ -21,7 +21,7 @@ export function useCreateArticle() {
     AxiosError<{ message: string[] }>,
     MutationReqData
   >({
-    mutationFn: (data: MutationReqData) => {
+    mutationFn: (data) => {
       return privateApi.post('/api/articles', data);
     },
     onSuccess() {

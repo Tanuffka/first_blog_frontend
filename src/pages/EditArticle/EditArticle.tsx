@@ -7,6 +7,7 @@ import { useParams } from 'react-router';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
+import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 
 import ArticleLayout from 'src/layouts/ArticleLayout/ArticleLayout';
@@ -102,12 +103,10 @@ export default function EditArticle() {
               {message}
             </Typography>
           ))}
-
-          <Grid container justifyContent="space-between">
+          <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
             <Button
               fullWidth
               variant="outlined"
-              size="medium"
               sx={{
                 maxWidth: 200,
               }}
@@ -120,14 +119,13 @@ export default function EditArticle() {
               loading={isLoading || isUpdating}
               type="submit"
               variant="contained"
-              size="medium"
               sx={{
                 maxWidth: 200,
               }}
             >
               Update
             </Button>
-          </Grid>
+          </Box>
         </Grid>
       </FormProvider>
     </ArticleLayout>

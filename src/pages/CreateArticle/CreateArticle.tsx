@@ -87,7 +87,7 @@ export default function CreateArticle() {
           <Grid container justifyContent="space-between">
             <Button
               fullWidth
-              disabled={isCreating}
+              loading={isCreating}
               type="submit"
               variant="contained"
               size="medium"

@@ -14,6 +14,8 @@ import { useFetchArticle } from 'src/hooks/useFetchArticle';
 import Date from 'src/components/Date';
 import { getAcronyms, getFullName } from 'src/utils/helpers/user';
 
+import ButtonDeleteArticle from './components/ButtonDeleteArticle';
+
 export default function ViewArticle() {
   const { id } = useParams<{ id: string }>();
 
@@ -37,19 +39,21 @@ export default function ViewArticle() {
         <Typography variant="h5" component="h1" fontWeight={500}>
           View
         </Typography>
-        <Button
-          component={Link}
-          to={`/articles/${id}/edit`}
-          variant="outlined"
-          size="small"
-          type="submit"
-          sx={{
-            borderWidth: 2,
-            fontWeight: 800,
-          }}
-        >
-          Edit
-        </Button>
+        <Grid container spacing={2}>
+          <Button
+            component={Link}
+            to={`/articles/${id}/edit`}
+            variant="outlined"
+            size="small"
+            sx={{
+              borderWidth: 2,
+              fontWeight: 800,
+            }}
+          >
+            Edit
+          </Button>
+          <ButtonDeleteArticle id={id!} />
+        </Grid>
       </Grid>
       <Paper
         sx={{
@@ -76,7 +80,6 @@ export default function ViewArticle() {
             to={`/articles/${id}/edit`}
             variant="outlined"
             size="small"
-            type="submit"
             sx={{
               position: 'absolute',
               top: 15,
