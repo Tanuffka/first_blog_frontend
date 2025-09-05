@@ -14,7 +14,7 @@ export interface LoginMutationReqData {
 export function useLogin() {
   const navigate = useNavigate();
 
-  const session = useSession();
+  const sessionLogin = useSession((state) => state.login);
 
   const loginMutation = useMutation<
     AxiosResponse<{ access_token: string }>,
@@ -25,7 +25,7 @@ export function useLogin() {
       return publicApi.post<{ access_token: string }>('/api/auth/login', data);
     },
     onSuccess({ data }) {
-      session.login(data.access_token);
+      sessionLogin(data.access_token);
       navigate('/');
     },
   });
