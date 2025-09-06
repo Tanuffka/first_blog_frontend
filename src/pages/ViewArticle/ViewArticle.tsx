@@ -25,6 +25,7 @@ export default function ViewArticle() {
   const { data: article, isLoading } = useFetchArticle(id!);
 
   const isCurrentUserAuthor = currentUser?._id === article?.author._id;
+
   if (isLoading) {
     return (
       <Grid container flex={1} justifyContent="center" sx={{ py: 5 }}>
@@ -43,7 +44,6 @@ export default function ViewArticle() {
         <Typography variant="h5" component="h1" fontWeight={500}>
           View
         </Typography>
-
         {isCurrentUserAuthor && (
           <Grid container spacing={2}>
             <Button

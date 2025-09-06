@@ -1,7 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 
-import { privateApi } from 'src/shared/api';
-import { type UserApiResponseSchema } from 'src/shared/api';
+import { privateApi, type UserApiResponseSchema } from 'src/shared/api';
 
 export function useFetchMe() {
   return useQuery({
