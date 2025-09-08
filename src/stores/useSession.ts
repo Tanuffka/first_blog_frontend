@@ -1,5 +1,4 @@
 import { create } from 'zustand';
-import Cookies from 'universal-cookie';
 
 import { privateApi, publicApi } from 'src/shared/api';
 
@@ -9,7 +8,7 @@ interface SessionState {
   token: string | null;
   isAuthenticated: boolean;
   login: (token: string) => void;
-  refresh: () => Promise<string | null>;
+  refresh: () => Promise<void>;
   logout: () => Promise<void>;
 }
 
@@ -31,16 +30,13 @@ export const useSession = create<SessionState>((set, get) => ({
   },
 
   refresh: async () => {
-    const cookies = new Cookies(null, { path: '/' });
-    const refreshToken = cookies.get('refresh_token');
-
-    if (!refreshToken) return null;
-
-    const response = await publicApi.post<{ refresh_token: string }>(
-      '/api/auth/refresh'
+    const response = await publicApi.post<{ access_token: string }>(
+      '/api/auth/refresh',
     );
 
-    return response.data.refresh_token;
+    const token = response.data.access_token;
+
+    set({ token, isAuthenticated: !!token });
   },
 
   logout: async () => {

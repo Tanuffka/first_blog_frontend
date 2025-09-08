@@ -128,7 +128,7 @@ export default tseslint.config(
         },
       ],
       // prettier
-      'prettier/prettier': ['error', { singleQuote: true }],
+      // 'prettier/prettier': ['error', { singleQuote: true }],
       // react
       'react/jsx-uses-react': 'off',
       'react/react-in-jsx-scope': 'off',
