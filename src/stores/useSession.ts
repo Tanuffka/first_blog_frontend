@@ -31,12 +31,12 @@ export const useSession = create<SessionState>((set, get) => ({
 
   refresh: async () => {
     const response = await publicApi.post<{ access_token: string }>(
-      '/api/auth/refresh',
+      '/api/auth/refresh'
     );
 
     const token = response.data.access_token;
 
-    set({ token, isAuthenticated: !!token });
+    get().login(token);
   },
 
   logout: async () => {

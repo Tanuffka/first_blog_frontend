@@ -10,9 +10,9 @@ import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 
-import ArticleLayout from 'src/layouts/ArticleLayout/ArticleLayout';
 import { useFetchArticle } from 'src/hooks/useFetchArticle';
 import { useUpdateArticle } from 'src/hooks/useUpdateArticle';
+import ContentLayout from 'src/layouts/ContentLayout';
 
 export default function EditArticle() {
   const { id } = useParams<{ id: string }>();
@@ -54,7 +54,7 @@ export default function EditArticle() {
   }, [article, reset]);
 
   return (
-    <ArticleLayout title="Edit article">
+    <ContentLayout title="Edit article">
       <FormProvider {...form}>
         <Grid
           noValidate
@@ -128,6 +128,6 @@ export default function EditArticle() {
           </Box>
         </Grid>
       </FormProvider>
-    </ArticleLayout>
+    </ContentLayout>
   );
 }

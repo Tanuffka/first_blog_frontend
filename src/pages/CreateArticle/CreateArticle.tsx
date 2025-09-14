@@ -7,7 +7,7 @@ import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 
-import ArticleLayout from 'src/layouts/ArticleLayout/ArticleLayout';
+import ContentLayout from 'src/layouts/ContentLayout';
 import { useCreateArticle } from 'src/hooks/useCreateArticle';
 
 const articleSchema = z.object({
@@ -35,7 +35,7 @@ export default function CreateArticle() {
   });
 
   return (
-    <ArticleLayout title="Create article">
+    <ContentLayout title="Create article">
       <FormProvider {...form}>
         <Grid
           noValidate
@@ -98,6 +98,6 @@ export default function CreateArticle() {
           </Grid>
         </Grid>
       </FormProvider>
-    </ArticleLayout>
+    </ContentLayout>
   );
 }

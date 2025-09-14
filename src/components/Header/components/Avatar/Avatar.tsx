@@ -13,12 +13,16 @@ import MenuItem from '@mui/material/MenuItem';
 
 import { useSession } from 'src/stores/useSession';
 import { getAcronyms } from 'src/utils/helpers/user';
+import { useFetchMe } from 'src/hooks/useFetchMe';
 
 export default function Avatar() {
-  const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
-
   const navigate = useNavigate();
+
+  const [anchorElUser, setAnchorElUser] = useState<HTMLElement | null>(null);
+
   const { logout, isAuthenticated } = useSession();
+
+  const { data: currentUser } = useFetchMe();
 
   const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElUser(event.currentTarget);
@@ -35,9 +39,11 @@ export default function Avatar() {
     });
   };
 
-  if (!isAuthenticated) {
+  if (!isAuthenticated || !currentUser) {
     return null;
   }
+
+  const userAcronyms = getAcronyms(currentUser.firstname, currentUser.lastname);
 
   return (
     <Box
@@ -48,10 +54,7 @@ export default function Avatar() {
       <Box sx={{ flexGrow: 0 }}>
         <Tooltip title="Open settings">
           <IconButton sx={{ p: 0 }} onClick={handleOpenUserMenu}>
-            <MuiAvatar
-              alt={getAcronyms('John', 'Doe')}
-              src="/static/images/avatar/2.jpg"
-            />
+            <MuiAvatar alt={userAcronyms} src="/static/images/avatar/2.jpg" />
           </IconButton>
         </Tooltip>
         <Menu

@@ -1,11 +1,10 @@
-import { AxiosError } from 'axios';
+import { type AxiosError, isAxiosError } from 'axios';
 
 export function catchError(error: Error | AxiosError<{ message: string[] }>) {
-  if (typeof error === typeof AxiosError) {
-    const message = (error as AxiosError<{ message: string[] }>).response?.data
-      .message;
+  if (isAxiosError(error)) {
+    const message = error.response?.data.message;
     return Array.isArray(message) ? message[0] : message;
   }
 
-  return (error as Error).message;
+  return error.message;
 }

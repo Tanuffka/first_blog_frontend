@@ -97,7 +97,7 @@ export default function ViewArticle() {
           >
             Edit
           </Button> */}
-          <img src="/images/placeholder-image.png" alt="placeholder image" />
+          <img src="/images/image-placeholder.png" alt="image placeholder" />
         </Box>
         <Grid container flexDirection="column" spacing={2} p={6}>
           <Grid container alignItems="center" spacing={2}>

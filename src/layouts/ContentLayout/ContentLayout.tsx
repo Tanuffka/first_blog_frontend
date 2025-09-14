@@ -4,13 +4,15 @@ import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
+import Grid from '@mui/material/Grid';
 
 interface Props {
-  title: string;
   children?: ReactNode;
+  title: string;
+  sidebar?: ReactNode;
 }
 
-export default function ArticleLayout({ title, children }: Props) {
+export default function ContentLayout({ children, title, sidebar }: Props) {
   return (
     <Container maxWidth="md">
       <Box>
@@ -23,16 +25,21 @@ export default function ArticleLayout({ title, children }: Props) {
           {title}
         </Typography>
       </Box>
-      <Paper
-        sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          p: 6,
-        }}
-      >
-        {children}
-      </Paper>
+      <Grid container spacing={5}>
+        <Grid flex={1}>
+          <Paper
+            sx={{
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              p: 6,
+            }}
+          >
+            {children}
+          </Paper>
+        </Grid>
+        {sidebar}
+      </Grid>
     </Container>
   );
 }

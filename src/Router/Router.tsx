@@ -9,6 +9,7 @@ import ForgotPassword from 'src/pages/ForgotPassword';
 import CreateArticle from 'src/pages/CreateArticle';
 import ViewArticle from 'src/pages/ViewArticle';
 import EditArticle from 'src/pages/EditArticle';
+import UserProfile from 'src/pages/UserProfile';
 
 import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute';
 
@@ -21,6 +22,7 @@ export default function Router() {
         <Route path="register" element={<Register />} />
         <Route path="reset-password" element={<ResetPassword />} />
         <Route path="forgot-password" element={<ForgotPassword />} />
+
         <Route path="articles">
           <Route index element={<Home />} />
           <Route path=":id" element={<ViewArticle />} />
@@ -29,6 +31,10 @@ export default function Router() {
             <Route path="create" element={<CreateArticle />} />
             <Route path=":id/edit" element={<EditArticle />} />
           </Route>
+        </Route>
+
+        <Route element={<ProtectedRoute />}>
+          <Route path="profile" element={<UserProfile />} />
         </Route>
       </Route>
     </Routes>

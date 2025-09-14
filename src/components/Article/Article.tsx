@@ -46,7 +46,7 @@ export default function Article({
         >
           View
         </Button>
-        <img src="/images/placeholder-image.png" alt="placeholder image" />
+        <img src="/images/image-placeholder.png" alt="image placeholder" />
       </Box>
       <CardContent sx={{ p: 4, pb: 6 }}>
         <Box sx={{ display: 'flex', alignItems: 'center' }}>

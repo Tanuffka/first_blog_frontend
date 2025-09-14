@@ -4,6 +4,11 @@ export interface UserApiResponseSchema {
   lastname: string;
 }
 
+export interface AuthorizedUserApiSchema extends UserApiResponseSchema {
+  email: string;
+  bio?: string;
+}
+
 export interface ArticleApiResponseSchema {
   _id: string;
   title: string;
