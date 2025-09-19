@@ -31,7 +31,7 @@ privateApi.interceptors.request.use(
   (error) => {
     // Do something with request error
     return Promise.reject(error);
-  },
+  }
 );
 
 privateApi.interceptors.response.use(
@@ -55,6 +55,8 @@ privateApi.interceptors.response.use(
 
         return privateApi.request(originalRequest);
       } catch (err) {
+        console.log(catchError(err as any));
+
         if (
           catchError(err as any) === 'jwt expired' ||
           catchError(err as any) === 'Refresh token not found' ||
@@ -66,7 +68,7 @@ privateApi.interceptors.response.use(
     }
 
     throw error;
-  },
+  }
 );
 
 export const publicApi = axios.create(AXIOS_OPTIONS);
