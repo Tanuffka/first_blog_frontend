@@ -1,10 +1,23 @@
-import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
 import { grey } from '@mui/material/colors';
+import { useTheme } from '@mui/material/styles';
+
+import { useFetchMe } from 'src/hooks/useFetchMe';
+
+import ButtonUploadAvatar from '../ButtonUploadAvatar';
+import ButtonDeleteAvatar from '../ButtonDeleteAvatar';
+
+export interface MutationReqData {
+  file: File;
+}
 
 export default function AvatarContainer() {
+  const theme = useTheme();
+
+  const { data: currentUser } = useFetchMe();
+
   return (
     <Grid sx={{ width: 300 }}>
       <Paper sx={{ p: 2 }}>
@@ -19,28 +32,28 @@ export default function AvatarContainer() {
             borderColor: grey[300],
             borderWidth: 1,
             borderStyle: 'solid',
+            borderRadius: theme.shape.borderRadius + 'px',
             img: {
               width: '100%',
               height: '100%',
             },
           }}
         >
-          {/* <img src="/images/avatar-placeholder.png" alt="avatar placeholder" /> */}
+          {currentUser && currentUser.avatarUrl && (
+            <img src={currentUser.avatarUrl} alt={currentUser.firstname} />
+          )}
         </Box>
-        <Box
+        <Grid
           sx={{
             display: 'flex',
             flexDirection: 'column',
             mt: 2,
+            justifyContent: 'space-around',
           }}
         >
-          <Button fullWidth variant="contained">
-            Upload
-          </Button>
-          <Button fullWidth variant="outlined" color="error" sx={{ mt: 1 }}>
-            Remove
-          </Button>
-        </Box>
+          <ButtonUploadAvatar />
+          {currentUser?.avatarUrl && <ButtonDeleteAvatar />}
+        </Grid>
       </Paper>
     </Grid>
   );

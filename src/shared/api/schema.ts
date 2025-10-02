@@ -7,6 +7,7 @@ export interface UserApiResponseSchema {
 export interface AuthorizedUserApiSchema extends UserApiResponseSchema {
   email: string;
   bio?: string;
+  avatarUrl?: string;
 }
 
 export interface ArticleApiResponseSchema {
