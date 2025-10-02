@@ -1,5 +1,4 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-// import { data } from 'react-router-dom';
 
 import { type AuthorizedUserApiSchema, privateApi } from 'src/shared/api';
 

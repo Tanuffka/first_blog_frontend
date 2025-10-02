@@ -33,6 +33,7 @@ export default function AvatarContainer() {
             borderWidth: 1,
             borderStyle: 'solid',
             borderRadius: theme.shape.borderRadius + 'px',
+            overflow: 'hidden',
             img: {
               width: '100%',
               height: '100%',

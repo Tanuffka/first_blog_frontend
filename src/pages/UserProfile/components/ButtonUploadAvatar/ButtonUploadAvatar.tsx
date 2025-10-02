@@ -35,6 +35,7 @@ const VisuallyHiddenInput = styled('input')({
 
 export default function ButtonUploadAvatar() {
   const imageRef = useRef<HTMLImageElement | null>(null);
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
 
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [imageSrc, setImageSrc] = useState<string>();
@@ -46,6 +47,14 @@ export default function ButtonUploadAvatar() {
     isPending: isUploading,
     errorMessages,
   } = useUploadAvatar();
+
+  const handleInputReset = () => {
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';
+      fileInputRef.current.type = 'text';
+      fileInputRef.current.type = 'file';
+    }
+  };
 
   const handleFileSelect = (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -83,13 +92,14 @@ export default function ButtonUploadAvatar() {
 
     getCroppedImage(imageRef.current, completedCrop).then((file) => {
       uploadAvatar({ file }).then(() => {
-        setSelectedFile(null);
+        handleCloseDialog();
       });
     });
   };
 
-  const handleClose = () => {
+  const handleCloseDialog = () => {
     setSelectedFile(null);
+    handleInputReset();
   };
 
   return (
@@ -102,6 +112,7 @@ export default function ButtonUploadAvatar() {
       >
         Upload
         <VisuallyHiddenInput
+          ref={fileInputRef}
           multiple={false}
           type="file"
           accept="image/*"
@@ -109,31 +120,24 @@ export default function ButtonUploadAvatar() {
         />
       </Button>
       <Dialog open={!!selectedFile}>
-        {!!selectedFile && (
-          <DialogContent>
-            <ReactCrop
-              circularCrop
-              keepSelection
-              crop={crop}
-              aspect={ASPECT_RATIO}
-              minWidth={MIN_DIMENSION}
-              onChange={handleCropChange}
-              onComplete={(c) => setCompletedCrop(c)}
-            >
-              <img ref={imageRef} src={imageSrc} onLoad={handleImageLoad} />
-            </ReactCrop>
-            {errorMessages?.map((message, index) => (
-              <Typography
-                key={index}
-                fontWeight={600}
-                color="red"
-                component="p"
-              >
-                {message}
-              </Typography>
-            ))}
-          </DialogContent>
-        )}
+        <DialogContent sx={{ display: 'flex' }}>
+          <ReactCrop
+            circularCrop
+            keepSelection
+            crop={crop}
+            aspect={ASPECT_RATIO}
+            minWidth={MIN_DIMENSION}
+            onChange={handleCropChange}
+            onComplete={(c) => setCompletedCrop(c)}
+          >
+            <img ref={imageRef} src={imageSrc} onLoad={handleImageLoad} />
+          </ReactCrop>
+          {errorMessages?.map((message, index) => (
+            <Typography key={index} fontWeight={600} color="red" component="p">
+              {message}
+            </Typography>
+          ))}
+        </DialogContent>
         <DialogActions
           sx={{
             display: 'flex',
@@ -144,9 +148,9 @@ export default function ButtonUploadAvatar() {
         >
           <Button
             color="error"
-            variant="contained"
+            variant="outlined"
             sx={{ minWidth: 150 }}
-            onClick={handleClose}
+            onClick={handleCloseDialog}
           >
             Cancel
           </Button>
