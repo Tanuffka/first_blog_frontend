@@ -24,22 +24,19 @@ export default function ButtonDeleteAvatar() {
   const handleClose = () => {
     setOpen(false);
   };
-
   return (
     <>
-      {File && (
-        <Button
-          variant="outlined"
-          color="error"
-          sx={{
-            borderWidth: 2,
-            mt: 1,
-          }}
-          onClick={handleClickOpen}
-        >
-          Delete
-        </Button>
-      )}
+      <Button
+        variant="outlined"
+        color="error"
+        sx={{
+          borderWidth: 2,
+          mt: 1,
+        }}
+        onClick={handleClickOpen}
+      >
+        Delete
+      </Button>
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle>Confirmation</DialogTitle>
         <DialogContent>

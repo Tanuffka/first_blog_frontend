@@ -9,10 +9,6 @@ import { useFetchMe } from 'src/hooks/useFetchMe';
 import ButtonUploadAvatar from '../ButtonUploadAvatar';
 import ButtonDeleteAvatar from '../ButtonDeleteAvatar';
 
-export interface MutationReqData {
-  file: File;
-}
-
 export default function AvatarContainer() {
   const theme = useTheme();
 
