@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import * as React from 'react';
 
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import Box from '@mui/material/Box';
 import IconButton from '@mui/material/IconButton';
@@ -32,6 +32,11 @@ export default function Avatar() {
     setAnchorElUser(null);
   };
 
+  const handleOpenUserProfile = () => {
+    navigate('/profile');
+    handleCloseUserMenu();
+  };
+
   const handleLogout = () => {
     logout().then(() => {
       handleCloseUserMenu();
@@ -54,7 +59,7 @@ export default function Avatar() {
       <Box sx={{ flexGrow: 0 }}>
         <Tooltip title="Open settings">
           <IconButton sx={{ p: 0 }} onClick={handleOpenUserMenu}>
-            <MuiAvatar alt={userAcronyms} src="/static/images/avatar/2.jpg" />
+            <MuiAvatar alt={userAcronyms} src={currentUser.avatarUrl} />
           </IconButton>
         </Tooltip>
         <Menu
@@ -73,7 +78,7 @@ export default function Avatar() {
           open={Boolean(anchorElUser)}
           onClose={handleCloseUserMenu}
         >
-          <MenuItem component={Link} to="/profile">
+          <MenuItem onClick={handleOpenUserProfile}>
             <Typography
               sx={{
                 textAlign: 'center',
