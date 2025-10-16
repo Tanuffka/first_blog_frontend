@@ -13,6 +13,7 @@ import Typography from '@mui/material/Typography';
 import { useFetchArticle } from 'src/hooks/useFetchArticle';
 import { useUpdateArticle } from 'src/hooks/useUpdateArticle';
 import ContentLayout from 'src/layouts/ContentLayout';
+import TextEditor from 'src/components/TextEditor';
 
 export default function EditArticle() {
   const { id } = useParams<{ id: string }>();
@@ -84,18 +85,8 @@ export default function EditArticle() {
           <Controller
             name="content"
             control={form.control}
-            render={({ field, formState: { errors } }) => (
-              <TextField
-                fullWidth
-                required
-                multiline
-                label="Content"
-                variant="outlined"
-                rows={6}
-                error={!!errors.content}
-                helperText={errors.content?.message}
-                {...field}
-              />
+            render={({ field }) => (
+              <TextEditor content={field.value} onChange={field.onChange} />
             )}
           />
           {errorMessages?.map((message, index) => (

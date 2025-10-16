@@ -9,6 +9,7 @@ import Typography from '@mui/material/Typography';
 
 import ContentLayout from 'src/layouts/ContentLayout';
 import { useCreateArticle } from 'src/hooks/useCreateArticle';
+import TextEditor from 'src/components/TextEditor';
 
 const articleSchema = z.object({
   title: z.string().min(2, 'Title must be at least 2 characters'),
@@ -31,6 +32,8 @@ export default function CreateArticle() {
   } = useCreateArticle();
 
   const onSubmit = form.handleSubmit((data) => {
+    console.log(data);
+
     createArticle(data);
   });
 
@@ -43,7 +46,7 @@ export default function CreateArticle() {
           component="form"
           autoComplete="off"
           flexDirection="column"
-          spacing={2}
+          spacing={1}
           sx={{ width: '100%' }}
           onSubmit={onSubmit}
         >
@@ -65,18 +68,8 @@ export default function CreateArticle() {
           <Controller
             name="content"
             control={form.control}
-            render={({ field, formState: { errors } }) => (
-              <TextField
-                fullWidth
-                required
-                multiline
-                label="Content"
-                variant="outlined"
-                rows={6}
-                error={!!errors.content}
-                helperText={errors.content?.message}
-                {...field}
-              />
+            render={({ field }) => (
+              <TextEditor content={field.value} onChange={field.onChange} />
             )}
           />
           {errorMessages?.map((message, index) => (
