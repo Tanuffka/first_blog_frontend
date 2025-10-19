@@ -13,14 +13,17 @@ import TextEditor from 'src/components/TextEditor';
 
 const articleSchema = z.object({
   title: z.string().min(2, 'Title must be at least 2 characters'),
-  content: z.string().min(10, 'Content must be at least 10 characters'),
+  content: z.tuple([
+    z.string(),
+    z.number().gt(10, 'Content must be at least 10 characters'),
+  ]),
 });
 
 export default function CreateArticle() {
   const form = useForm({
     defaultValues: {
       title: '',
-      content: '',
+      content: ['', 0] as const,
     },
     resolver: zodResolver(articleSchema),
   });
@@ -31,10 +34,8 @@ export default function CreateArticle() {
     errorMessages,
   } = useCreateArticle();
 
-  const onSubmit = form.handleSubmit((data) => {
-    console.log(data);
-
-    createArticle(data);
+  const onSubmit = form.handleSubmit(({ title, content }) => {
+    createArticle({ title, content: content[0] });
   });
 
   return (
@@ -68,8 +69,13 @@ export default function CreateArticle() {
           <Controller
             name="content"
             control={form.control}
-            render={({ field }) => (
-              <TextEditor content={field.value} onChange={field.onChange} />
+            render={({ field, formState: { errors } }) => (
+              <TextEditor
+                content={field.value[0]}
+                placeholder="Content"
+                error={errors.content?.[1]?.message}
+                onChange={field.onChange}
+              />
             )}
           />
           {errorMessages?.map((message, index) => (
