@@ -64,7 +64,7 @@ export default function TextEditor({
       },
     },
 
-    onCreate({ editor }) {
+    onMount({ editor }) {
       onChange?.([
         editor.getHTML(),
         editor.storage.characterCount.characters(),
