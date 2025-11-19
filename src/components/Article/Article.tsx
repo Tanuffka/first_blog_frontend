@@ -11,6 +11,7 @@ import Button from '@mui/material/Button';
 import { getAcronyms, getFullName } from 'src/utils/helpers/user';
 import { type ArticleApiResponseSchema } from 'src/shared/api';
 import Date from 'src/components/Date';
+import TextEditor from 'src/components/TextEditor';
 
 type ArticleProps = ArticleApiResponseSchema;
 
@@ -78,8 +79,7 @@ export default function Article({
               </Typography>
             </Box>
           </Tooltip>
-          <Typography
-            variant="body2"
+          <Box
             sx={{
               display: '-webkit-box',
               lineClamp: 3,
@@ -89,8 +89,8 @@ export default function Article({
               overflow: 'hidden',
             }}
           >
-            {content}
-          </Typography>
+            <TextEditor isPlainText editable={false} content={content} />
+          </Box>
         </Box>
       </CardContent>
     </Card>

@@ -1,4 +1,6 @@
 import { useEffect } from 'react';
+import * as z from 'zod';
+import { zodResolver } from '@hookform/resolvers/zod';
 
 import { useNavigate } from 'react-router-dom';
 import { Controller, FormProvider, useForm } from 'react-hook-form';
@@ -13,6 +15,15 @@ import Typography from '@mui/material/Typography';
 import { useFetchArticle } from 'src/hooks/useFetchArticle';
 import { useUpdateArticle } from 'src/hooks/useUpdateArticle';
 import ContentLayout from 'src/layouts/ContentLayout';
+import TextEditor from 'src/components/TextEditor';
+
+const articleSchema = z.object({
+  title: z.string().min(2, 'Title must be at least 2 characters'),
+  content: z.tuple([
+    z.string(),
+    z.number().gt(10, 'Content must be at least 10 characters'),
+  ]),
+});
 
 export default function EditArticle() {
   const { id } = useParams<{ id: string }>();
@@ -28,14 +39,15 @@ export default function EditArticle() {
   const form = useForm({
     defaultValues: {
       title: '',
-      content: '',
+      content: ['', 0] as const,
     },
+    resolver: zodResolver(articleSchema),
   });
 
   const { reset } = form;
 
-  const onSubmit = form.handleSubmit((data) => {
-    updateArticle(data);
+  const onSubmit = form.handleSubmit(({ title, content }) => {
+    updateArticle({ title, content: content[0] });
   });
 
   const handleCancel = () => {
@@ -49,7 +61,7 @@ export default function EditArticle() {
 
     reset({
       title: article.title,
-      content: article.content,
+      content: [article.content, article.content.length],
     });
   }, [article, reset]);
 
@@ -85,16 +97,11 @@ export default function EditArticle() {
             name="content"
             control={form.control}
             render={({ field, formState: { errors } }) => (
-              <TextField
-                fullWidth
-                required
-                multiline
-                label="Content"
-                variant="outlined"
-                rows={6}
-                error={!!errors.content}
-                helperText={errors.content?.message}
-                {...field}
+              <TextEditor
+                placeholder="Content"
+                content={field.value[0]}
+                error={errors.content?.[1]?.message}
+                onChange={field.onChange}
               />
             )}
           />

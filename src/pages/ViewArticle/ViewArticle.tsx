@@ -14,6 +14,7 @@ import { useFetchArticle } from 'src/hooks/useFetchArticle';
 import Date from 'src/components/Date';
 import { getAcronyms, getFullName } from 'src/utils/helpers/user';
 import { useFetchMe } from 'src/hooks/useFetchMe';
+import TextEditor from 'src/components/TextEditor';
 
 import ButtonDeleteArticle from './components/ButtonDeleteArticle';
 
@@ -82,25 +83,10 @@ export default function ViewArticle() {
             },
           }}
         >
-          {/* <Button
-            component={Link}
-            to={`/articles/${id}/edit`}
-            variant="outlined"
-            size="small"
-            sx={{
-              position: 'absolute',
-              top: 15,
-              right: 15,
-              borderWidth: 2,
-              fontWeight: 800,
-            }}
-          >
-            Edit
-          </Button> */}
           <img src="/images/image-placeholder.png" alt="image placeholder" />
         </Box>
-        <Grid container flexDirection="column" spacing={2} p={6}>
-          <Grid container alignItems="center" spacing={2}>
+        <Grid container flexDirection="column" p={6}>
+          <Grid container alignItems="center" spacing={2} mb={2}>
             <MuiAvatar
               alt={getAcronyms(
                 article.author.firstname,
@@ -121,7 +107,7 @@ export default function ViewArticle() {
             </Typography>
           </Grid>
           <Grid>
-            <Typography variant="body2">{article.content}</Typography>
+            <TextEditor editable={false} content={article.content} />
           </Grid>
         </Grid>
       </Paper>

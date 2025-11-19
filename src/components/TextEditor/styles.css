@@ -1,0 +1,79 @@
+h1.editor-heading {
+  font-size: 38px;
+  font-weight: 400;
+  letter-spacing: 0px;
+  margin: 0;
+}
+
+h2.editor-heading {
+  font-size: 34px;
+  font-weight: 400;
+  letter-spacing: 0.25px;
+  margin: 0;
+}
+
+h3.editor-heading {
+  font-size: 30px;
+  font-weight: 400;
+  letter-spacing: 0px;
+  margin: 0;
+}
+
+h4.editor-heading {
+  font-size: 26px;
+  font-weight: 500;
+  letter-spacing: 0.15px;
+  margin: 0;
+}
+
+h5.editor-heading {
+  font-size: 22px;
+  font-weight: 400;
+  letter-spacing: 0.15px;
+  margin: 0;
+}
+
+h6.editor-heading {
+  font-size: 18px;
+  font-weight: 500;
+  letter-spacing: 0.15px;
+  margin: 0;
+}
+
+p.editor-paragraph {
+  font-size: 14px;
+  font-weight: 400;
+  letter-spacing: 0.25px;
+  margin: 0;
+}
+
+.hightlight {
+  /* color: '#ffc078', */
+  text-decoration: yellow;
+}
+
+.blockquote {
+  border-left: 3px solid rgba(61, 37, 20, 0.12);
+  margin: 0;
+  padding-left: 16px;
+}
+
+.editor {
+  min-height: 250px;
+}
+
+.editor.editable {
+  padding: 10px;
+}
+
+.editor:focus {
+  outline: none;
+}
+
+.tiptap p.is-editor-empty:first-child::before {
+  color: #adb5bd;
+  content: attr(data-placeholder);
+  float: left;
+  height: 0;
+  pointer-events: none;
+}

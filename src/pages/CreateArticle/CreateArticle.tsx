@@ -9,17 +9,21 @@ import Typography from '@mui/material/Typography';
 
 import ContentLayout from 'src/layouts/ContentLayout';
 import { useCreateArticle } from 'src/hooks/useCreateArticle';
+import TextEditor from 'src/components/TextEditor';
 
 const articleSchema = z.object({
   title: z.string().min(2, 'Title must be at least 2 characters'),
-  content: z.string().min(10, 'Content must be at least 10 characters'),
+  content: z.tuple([
+    z.string(),
+    z.number().gt(10, 'Content must be at least 10 characters'),
+  ]),
 });
 
 export default function CreateArticle() {
   const form = useForm({
     defaultValues: {
       title: '',
-      content: '',
+      content: ['', 0] as const,
     },
     resolver: zodResolver(articleSchema),
   });
@@ -30,8 +34,8 @@ export default function CreateArticle() {
     errorMessages,
   } = useCreateArticle();
 
-  const onSubmit = form.handleSubmit((data) => {
-    createArticle(data);
+  const onSubmit = form.handleSubmit(({ title, content }) => {
+    createArticle({ title, content: content[0] });
   });
 
   return (
@@ -43,7 +47,7 @@ export default function CreateArticle() {
           component="form"
           autoComplete="off"
           flexDirection="column"
-          spacing={2}
+          spacing={1}
           sx={{ width: '100%' }}
           onSubmit={onSubmit}
         >
@@ -66,16 +70,11 @@ export default function CreateArticle() {
             name="content"
             control={form.control}
             render={({ field, formState: { errors } }) => (
-              <TextField
-                fullWidth
-                required
-                multiline
-                label="Content"
-                variant="outlined"
-                rows={6}
-                error={!!errors.content}
-                helperText={errors.content?.message}
-                {...field}
+              <TextEditor
+                content={field.value[0]}
+                placeholder="Content"
+                error={errors.content?.[1]?.message}
+                onChange={field.onChange}
               />
             )}
           />
