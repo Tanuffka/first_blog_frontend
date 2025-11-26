@@ -69,6 +69,7 @@ export default function ViewArticle() {
           display: 'flex',
           flexDirection: 'column',
           minHeight: '600px',
+          overflow: 'hidden',
         }}
       >
         <Box

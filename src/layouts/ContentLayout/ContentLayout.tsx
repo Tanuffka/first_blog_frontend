@@ -32,7 +32,6 @@ export default function ContentLayout({ children, title, sidebar }: Props) {
               display: 'flex',
               flexDirection: 'column',
               alignItems: 'center',
-              p: 6,
             }}
           >
             {children}

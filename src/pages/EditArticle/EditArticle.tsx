@@ -16,14 +16,8 @@ import { useFetchArticle } from 'src/hooks/useFetchArticle';
 import { useUpdateArticle } from 'src/hooks/useUpdateArticle';
 import ContentLayout from 'src/layouts/ContentLayout';
 import TextEditor from 'src/components/TextEditor';
-
-const articleSchema = z.object({
-  title: z.string().min(2, 'Title must be at least 2 characters'),
-  content: z.tuple([
-    z.string(),
-    z.number().gt(10, 'Content must be at least 10 characters'),
-  ]),
-});
+import ArticleCover from 'src/components/ArticleCover';
+import { articleSchema } from 'src/shared/zod/article';
 
 export default function EditArticle() {
   const { id } = useParams<{ id: string }>();
@@ -67,6 +61,22 @@ export default function EditArticle() {
 
   return (
     <ContentLayout title="Edit article">
+       <Grid
+        sx={{
+          width: '100%',
+          height: '100%',
+          display: 'flex',
+          flexDirection: 'column',
+          overflow: 'hidden',
+        }}
+      >
+          <ArticleCover/>
+      </Grid>
+      <Grid   sx={{
+          width: '100%',
+          height: '100%',
+          padding: 6,
+        }}>
       <FormProvider {...form}>
         <Grid
           noValidate
@@ -135,6 +145,7 @@ export default function EditArticle() {
           </Box>
         </Grid>
       </FormProvider>
+      </Grid>
     </ContentLayout>
   );
 }
