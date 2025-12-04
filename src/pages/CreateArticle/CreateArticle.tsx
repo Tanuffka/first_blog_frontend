@@ -49,83 +49,85 @@ export default function CreateArticle() {
           flexDirection: 'column',
           overflow: 'hidden',
         }}
-      ></Grid>
-      <Grid
-        sx={{
-          width: '100%',
-          height: '100%',
-          padding: 6,
-        }}
       >
-        <FormProvider {...form}>
-          <Grid
-            noValidate
-            container
-            component="form"
-            autoComplete="off"
-            flexDirection="column"
-            spacing={1}
-            sx={{ width: '100%' }}
-            onSubmit={onSubmit}
-          >
-            <Controller
-              name="cover"
-              control={form.control}
-              render={({ field }) => (
-                <ArticleCover cover={field.value} onChange={field.onChange} />
-              )}
-            />
-            <Controller
-              name="title"
-              control={form.control}
-              render={({ field, formState: { errors } }) => (
-                <TextField
+        <Controller
+          name="cover"
+          control={form.control}
+          render={({ field }) => (
+            <ArticleCover cover={field.value} onChange={field.onChange} />
+          )}
+        />
+        <Grid />
+        <Grid
+          sx={{
+            width: '100%',
+            height: '100%',
+            padding: 6,
+          }}
+        >
+          <FormProvider {...form}>
+            <Grid
+              noValidate
+              container
+              component="form"
+              autoComplete="off"
+              flexDirection="column"
+              spacing={2}
+              sx={{ width: '100%' }}
+              onSubmit={onSubmit}
+            >
+              <Controller
+                name="title"
+                control={form.control}
+                render={({ field, formState: { errors } }) => (
+                  <TextField
+                    fullWidth
+                    required
+                    label="Title"
+                    variant="outlined"
+                    error={!!errors.title}
+                    helperText={errors.title?.message}
+                    {...field}
+                  />
+                )}
+              />
+              <Controller
+                name="content"
+                control={form.control}
+                render={({ field, formState: { errors } }) => (
+                  <TextEditor
+                    content={field.value[0]}
+                    placeholder="Content"
+                    error={errors.content?.[1]?.message}
+                    onChange={field.onChange}
+                  />
+                )}
+              />
+              {errorMessages?.map((message, index) => (
+                <Typography
+                  key={index}
+                  fontWeight={600}
+                  color="red"
+                  component="p"
+                >
+                  {message}
+                </Typography>
+              ))}
+              <Grid container justifyContent="space-between">
+                <Button
                   fullWidth
-                  required
-                  label="Title"
-                  variant="outlined"
-                  error={!!errors.title}
-                  helperText={errors.title?.message}
-                  {...field}
-                />
-              )}
-            />
-            <Controller
-              name="content"
-              control={form.control}
-              render={({ field, formState: { errors } }) => (
-                <TextEditor
-                  content={field.value[0]}
-                  placeholder="Content"
-                  error={errors.content?.[1]?.message}
-                  onChange={field.onChange}
-                />
-              )}
-            />
-            {errorMessages?.map((message, index) => (
-              <Typography
-                key={index}
-                fontWeight={600}
-                color="red"
-                component="p"
-              >
-                {message}
-              </Typography>
-            ))}
-            <Grid container justifyContent="space-between">
-              <Button
-                fullWidth
-                loading={isCreating}
-                type="submit"
-                variant="contained"
-                size="medium"
-                sx={{ maxWidth: 200 }}
-              >
-                Create
-              </Button>
+                  loading={isCreating}
+                  type="submit"
+                  variant="contained"
+                  size="medium"
+                  sx={{ maxWidth: 200 }}
+                >
+                  Create
+                </Button>
+              </Grid>
             </Grid>
-          </Grid>
-        </FormProvider>
+          </FormProvider>
+        </Grid>
       </Grid>
     </ContentLayout>
   );

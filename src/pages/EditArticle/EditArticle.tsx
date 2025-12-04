@@ -61,7 +61,7 @@ export default function EditArticle() {
 
   return (
     <ContentLayout title="Edit article">
-       <Grid
+      <Grid
         sx={{
           width: '100%',
           height: '100%',
@@ -70,81 +70,94 @@ export default function EditArticle() {
           overflow: 'hidden',
         }}
       >
-          <ArticleCover/>
+        <Controller
+          name="cover"
+          control={form.control}
+          render={({ field }) => (
+            <ArticleCover cover={field.value} onChange={field.onChange} />
+          )}
+        />
       </Grid>
-      <Grid   sx={{
+      <Grid
+        sx={{
           width: '100%',
           height: '100%',
           padding: 6,
-        }}>
-      <FormProvider {...form}>
-        <Grid
-          noValidate
-          container
-          component="form"
-          autoComplete="off"
-          flexDirection="column"
-          spacing={2}
-          sx={{ width: '100%' }}
-          onSubmit={onSubmit}
-        >
-          <Controller
-            name="title"
-            control={form.control}
-            render={({ field, formState: { errors } }) => (
-              <TextField
+        }}
+      >
+        <FormProvider {...form}>
+          <Grid
+            noValidate
+            container
+            component="form"
+            autoComplete="off"
+            flexDirection="column"
+            spacing={2}
+            sx={{ width: '100%' }}
+            onSubmit={onSubmit}
+          >
+            <Controller
+              name="title"
+              control={form.control}
+              render={({ field, formState: { errors } }) => (
+                <TextField
+                  fullWidth
+                  required
+                  label="Title"
+                  variant="outlined"
+                  error={!!errors.title}
+                  helperText={errors.title?.message}
+                  {...field}
+                />
+              )}
+            />
+            <Controller
+              name="content"
+              control={form.control}
+              render={({ field, formState: { errors } }) => (
+                <TextEditor
+                  placeholder="Content"
+                  content={field.value[0]}
+                  error={errors.content?.[1]?.message}
+                  onChange={field.onChange}
+                />
+              )}
+            />
+            {errorMessages?.map((message, index) => (
+              <Typography
+                key={index}
+                fontWeight={600}
+                color="red"
+                component="p"
+              >
+                {message}
+              </Typography>
+            ))}
+            <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+              <Button
                 fullWidth
-                required
-                label="Title"
                 variant="outlined"
-                error={!!errors.title}
-                helperText={errors.title?.message}
-                {...field}
-              />
-            )}
-          />
-          <Controller
-            name="content"
-            control={form.control}
-            render={({ field, formState: { errors } }) => (
-              <TextEditor
-                placeholder="Content"
-                content={field.value[0]}
-                error={errors.content?.[1]?.message}
-                onChange={field.onChange}
-              />
-            )}
-          />
-          {errorMessages?.map((message, index) => (
-            <Typography key={index} fontWeight={600} color="red" component="p">
-              {message}
-            </Typography>
-          ))}
-          <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-            <Button
-              fullWidth
-              variant="outlined"
-              sx={{
-                maxWidth: 200,
-              }}
-              onClick={handleCancel}
-            >
-              Cancel
-            </Button>
-            <Button
-              fullWidth
-              loading={isLoading || isUpdating}
-              type="submit"
-              variant="contained"
-              sx={{
-                maxWidth: 200,
-              }}
-            >
-              Update
-            </Button>
-          </Box>
-        </Grid>
-      </FormProvider>
+                sx={{
+                  maxWidth: 200,
+                }}
+                onClick={handleCancel}
+              >
+                Cancel
+              </Button>
+              <Button
+                fullWidth
+                loading={isLoading || isUpdating}
+                type="submit"
+                variant="contained"
+                sx={{
+                  maxWidth: 200,
+                }}
+              >
+                Update
+              </Button>
+            </Box>
+          </Grid>
+        </FormProvider>
       </Grid>
     </ContentLayout>
   );
