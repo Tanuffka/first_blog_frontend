@@ -10,8 +10,7 @@ import importPlugin from 'eslint-plugin-import-x';
 import { createTypeScriptImportResolver } from 'eslint-import-resolver-typescript';
 import allyjsxPlugin from 'eslint-plugin-jsx-a11y';
 
-export default defineConfig([
-  prettierPlugin,
+export default defineConfig(
   {
     ignores: [
       'dist',
@@ -53,6 +52,7 @@ export default defineConfig([
     rules: {
       ...reactPlugin.configs.recommended.rules,
       ...reactHooksPlugin.configs.recommended.rules,
+      ...prettierPlugin.configs.recommended.rules,
       'react-refresh/only-export-components': [
         'warn',
         { allowConstantExport: true },
@@ -132,8 +132,6 @@ export default defineConfig([
           typeLiterals: ['signature', 'field', 'constructor', 'method'],
         },
       ],
-      // prettier
-      'prettier/prettier': ['error', { singleQuote: true }],
       // react
       'react/jsx-uses-react': 'off',
       'react/react-in-jsx-scope': 'off',
@@ -165,4 +163,4 @@ export default defineConfig([
       'jsx-a11y/media-has-caption': 0,
     },
   },
-]);
+);
