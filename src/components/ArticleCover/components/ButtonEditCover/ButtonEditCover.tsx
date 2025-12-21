@@ -41,6 +41,9 @@ export default function ButtonEditCover({
       role={undefined}
       tabIndex={-1}
       startIcon={<EditIcon />}
+      sx={{
+        height: 50,
+      }}
     >
       Edit cover
       <VisuallyHiddenInput
