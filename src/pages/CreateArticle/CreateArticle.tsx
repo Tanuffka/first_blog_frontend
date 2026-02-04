@@ -17,14 +17,22 @@ export default function CreateArticle() {
     defaultValues: {
       title: '',
       content: ['', 0] as const,
-      cover: {
-        image: '',
-        crop: {
+      tags: [],
+      coverCroppedImage: {
+        fileKey: '',
+        fileDownloadUrl: '',
+      },
+      coverImage: {
+        fileKey: '',
+        fileDownloadUrl: '',
+        cropOptions: {
           x: 0,
           y: 0,
+          width: 0,
+          height: 0,
+          zoom: 1,
         },
-        zoom: 1,
-      } as const,
+      },
     },
     resolver: zodResolver(articleSchema),
   });
@@ -35,9 +43,17 @@ export default function CreateArticle() {
     errorMessages,
   } = useCreateArticle();
 
-  const onSubmit = form.handleSubmit(({ title, content }) => {
-    createArticle({ title, content: content[0] });
-  });
+  const onSubmit = form.handleSubmit(
+    ({ title, content, tags, coverImage, coverCroppedImage }) => {
+      createArticle({
+        title,
+        content: content[0],
+        tags,
+        coverImage,
+        coverCroppedImage,
+      });
+    },
+  );
 
   return (
     <ContentLayout title="Create article">
@@ -50,13 +66,13 @@ export default function CreateArticle() {
           overflow: 'hidden',
         }}
       >
-        <Controller
+        {/* <Controller
           name="cover"
           control={form.control}
           render={({ field }) => (
             <ArticleCover cover={field.value} onChange={field.onChange} />
           )}
-        />
+        /> */}
         <Grid />
         <Grid
           sx={{

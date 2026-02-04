@@ -1,5 +1,4 @@
-import { useEffect } from 'react';
-import * as z from 'zod';
+import { useEffect, useState } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 
 import { useNavigate } from 'react-router-dom';
@@ -14,14 +13,39 @@ import Typography from '@mui/material/Typography';
 
 import { useFetchArticle } from 'src/hooks/useFetchArticle';
 import { useUpdateArticle } from 'src/hooks/useUpdateArticle';
+import { useRequestFileUploadURL } from 'src/hooks/useRequestFileUploadURL';
+import { useRequestFileDownloadURL } from 'src/hooks/useRequestFileDownloadURL';
 import ContentLayout from 'src/layouts/ContentLayout';
 import TextEditor from 'src/components/TextEditor';
 import ArticleCover from 'src/components/ArticleCover';
 import { articleSchema } from 'src/shared/zod/article';
 
+const ARTICLE_FORM_DEFAULT_VALUES = {
+  title: '',
+  content: ['', 0] as const,
+  tags: [],
+  coverCroppedImage: {
+    fileKey: '',
+    fileDownloadUrl: '',
+  },
+  coverImage: {
+    fileKey: '',
+    fileDownloadUrl: '',
+    cropOptions: {
+      x: 0,
+      y: 0,
+      width: 852,
+      height: 400,
+      zoom: 1,
+    },
+  },
+} as const;
+
 export default function EditArticle() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
+
+  const [coverImageFile, setCoverImageFile] = useState<File | null>(null);
 
   const { data: article, isLoading } = useFetchArticle(id!);
   const {
@@ -30,22 +54,71 @@ export default function EditArticle() {
     errorMessages,
   } = useUpdateArticle(id!);
 
+  const { requestFileUploadURL } = useRequestFileUploadURL();
+  const { requestFileDownloadURL } = useRequestFileDownloadURL();
+
   const form = useForm({
     defaultValues: {
-      title: '',
-      content: ['', 0] as const,
+      ...ARTICLE_FORM_DEFAULT_VALUES,
     },
     resolver: zodResolver(articleSchema),
   });
 
-  const { reset } = form;
+  const { reset, watch } = form;
 
-  const onSubmit = form.handleSubmit(({ title, content }) => {
-    updateArticle({ title, content: content[0] });
-  });
+  console.log(watch('coverImage'));
+
+  const handleSubmit = form.handleSubmit(
+    async ({ title, content, tags, coverImage, coverCroppedImage }) => {
+      try {
+        let generatedFileKey = coverImage.fileKey;
+        let fileDownloadUrl = coverImage.fileDownloadUrl;
+
+        if (coverImageFile) {
+          const temporaryFileKey = `articles/${coverImageFile.name}`;
+
+          const requestedFileUploadUrl = await requestFileUploadURL({
+            fileKey: temporaryFileKey,
+          });
+
+          const { fileKey, fileUploadUrl } = requestedFileUploadUrl.data;
+
+          await fetch(fileUploadUrl, {
+            method: 'PUT',
+            body: coverImageFile,
+          });
+
+          const requestedFileDownloadUrl = await requestFileDownloadURL({
+            fileKey,
+          });
+
+          generatedFileKey = fileKey;
+          fileDownloadUrl = requestedFileDownloadUrl.data || '';
+        }
+
+        updateArticle({
+          title,
+          content: content[0],
+          tags,
+          coverImage: {
+            ...coverImage,
+            fileKey: generatedFileKey,
+            fileDownloadUrl,
+          },
+          coverCroppedImage,
+        });
+      } catch (error) {
+        console.error(error);
+      }
+    },
+  );
 
   const handleCancel = () => {
     navigate(`/articles/${id}`);
+  };
+
+  const handleCoverImageFileSelect = (file: File | null) => {
+    setCoverImageFile(file);
   };
 
   useEffect(() => {
@@ -54,8 +127,12 @@ export default function EditArticle() {
     }
 
     reset({
+      ...ARTICLE_FORM_DEFAULT_VALUES,
       title: article.title,
       content: [article.content, article.content.length],
+      tags: article.tags,
+      coverImage: article.coverImage,
+      coverCroppedImage: article.coverCroppedImage,
     });
   }, [article, reset]);
 
@@ -71,10 +148,14 @@ export default function EditArticle() {
         }}
       >
         <Controller
-          name="cover"
+          name="coverImage"
           control={form.control}
           render={({ field }) => (
-            <ArticleCover cover={field.value} onChange={field.onChange} />
+            <ArticleCover
+              cover={field.value}
+              onChange={field.onChange}
+              onFileSelect={handleCoverImageFileSelect}
+            />
           )}
         />
       </Grid>
@@ -94,7 +175,7 @@ export default function EditArticle() {
             flexDirection="column"
             spacing={2}
             sx={{ width: '100%' }}
-            onSubmit={onSubmit}
+            onSubmit={handleSubmit}
           >
             <Controller
               name="title"

@@ -1,7 +1,7 @@
 import Box from '@mui/material/Box';
 import type { ArticleCoverType } from 'src/shared/types/article';
-import Cropper from 'react-easy-crop';
-import { useState, type ChangeEvent } from 'react';
+import Cropper, { type Point } from 'react-easy-crop';
+import { useEffect, useState } from 'react';
 import ButtonEditCover from './components/ButtonEditCover';
 import Grid from '@mui/material/Grid';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -11,27 +11,56 @@ import { StyledSlider } from './components/styledSlider';
 export interface ArticleCoverProps {
   cover: ArticleCoverType;
   onChange: (cover: ArticleCoverType) => void;
+  onFileSelect: (file: File | null) => void;
 }
 
-export default function ArticleCover({ cover, onChange }: ArticleCoverProps) {
-  const [imageSrc, setImageSrc] = useState<string | null>(null);
-  const [crop, setCrop] = useState({ x: 0, y: 0 });
-  const [zoom, setZoom] = useState(1);
+export default function ArticleCover({
+  cover,
+  onChange,
+  onFileSelect,
+}: ArticleCoverProps) {
+  const {
+    fileDownloadUrl,
+    cropOptions: { zoom, width, height, x, y },
+  } = cover;
 
-  const handleImageSelect = (value: string) => {
-    setImageSrc(value);
+  const [imageSrc, setImageSrc] = useState<string | null>(null);
+
+  const handleFileSelect = (file: File | null) => {
+    onFileSelect(file);
+
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.addEventListener('load', () => {
+      setImageSrc(reader.result?.toString() || '');
+    });
+    reader.readAsDataURL(file);
+  };
+
+  const handleCropChange = ({ x, y }: Point) => {
+    console.log({ x, y });
+
+    // onChange({ ...cover, cropOptions: { ...cover.cropOptions, x, y } });
   };
 
   const handleImageZoom = (value: number) => {
     const parsedValue = Math.round(value * 100) / 100;
-    setZoom(parsedValue);
-
-    console.log(parsedValue);
+    onChange({
+      ...cover,
+      cropOptions: { ...cover.cropOptions, zoom: parsedValue },
+    });
   };
 
   const handleImageDelete = () => {
     setImageSrc(null);
   };
+
+  useEffect(() => {
+    if (fileDownloadUrl) {
+      setImageSrc(fileDownloadUrl);
+    }
+  }, [fileDownloadUrl]);
 
   return (
     <Grid
@@ -48,7 +77,7 @@ export default function ArticleCover({ cover, onChange }: ArticleCoverProps) {
         spacing={2}
         sx={{ position: 'absolute', zIndex: 1, top: 40, right: 40 }}
       >
-        {!imageSrc && <ButtonEditCover onImageSelect={handleImageSelect} />}
+        {!imageSrc && <ButtonEditCover onFileSelect={handleFileSelect} />}
         {imageSrc && (
           <Button
             variant="outlined"
@@ -67,8 +96,8 @@ export default function ArticleCover({ cover, onChange }: ArticleCoverProps) {
       </Grid>
       <Box
         sx={{
+          height,
           position: 'relative',
-          height: 400,
           backgroundImage: 'url(/images/image-placeholder.png)',
           backgroundPosition: 'center',
           backgroundSize: 'cover',
@@ -79,23 +108,22 @@ export default function ArticleCover({ cover, onChange }: ArticleCoverProps) {
             zoomWithScroll
             objectFit="cover"
             image={imageSrc}
-            crop={crop}
-            cropSize={{ width: 852, height: 400 }}
-            onCropChange={setCrop}
+            crop={{ x, y }}
+            cropSize={{ width, height }}
+            onCropChange={handleCropChange}
             onZoomChange={handleImageZoom}
-            aspect={852 / 400}
+            aspect={width / height}
             zoom={zoom}
           />
         )}
         {imageSrc && (
           <Box sx={{ position: 'absolute', width: 200, bottom: 30, right: 40 }}>
             <StyledSlider
-              aria-labelledby="Zoom"
               min={1}
               max={3}
               step={0.1}
               value={zoom}
-              onChange={(_event, value) => handleImageZoom(value)}
+              onChange={(_event, value) => handleImageZoom(value as number)}
             />
           </Box>
         )}

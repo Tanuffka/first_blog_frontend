@@ -1,3 +1,5 @@
+import type { ArticleSchema } from 'src/shared/zod/article';
+
 export interface UserApiResponseSchema {
   _id: string;
   firstname: string;
@@ -19,4 +21,6 @@ export interface ArticleApiResponseSchema {
   viewsCount: number;
   createdAt: string;
   updatedAt: string;
+  coverImage: ArticleSchema['coverImage'];
+  coverCroppedImage: ArticleSchema['coverCroppedImage'];
 }

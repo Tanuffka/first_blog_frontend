@@ -16,22 +16,16 @@ const VisuallyHiddenInput = styled('input')({
 });
 
 export interface ButtonEditCoverProps {
-  onImageSelect: (imageSrc: string) => void;
+  onFileSelect: (file: File | null) => void;
 }
 
 export default function ButtonEditCover({
-  onImageSelect,
+  onFileSelect,
 }: ButtonEditCoverProps) {
   const handleImageSelect = (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
 
-    if (!file) return;
-
-    const reader = new FileReader();
-    reader.addEventListener('load', () => {
-      onImageSelect(reader.result?.toString() || '');
-    });
-    reader.readAsDataURL(file);
+    onFileSelect(file || null);
   };
 
   return (

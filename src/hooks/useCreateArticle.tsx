@@ -2,13 +2,13 @@ import { useMutation } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 
 import { privateApi } from 'src/shared/api';
+import { type ArticleSchema } from 'src/shared/zod/article';
 
 import type { AxiosError, AxiosResponse } from 'axios';
 
-export interface MutationReqData {
-  title: string;
+export type MutationReqData = Omit<ArticleSchema, 'content'> & {
   content: string;
-}
+};
 
 export function useCreateArticle() {
   const navigate = useNavigate();
