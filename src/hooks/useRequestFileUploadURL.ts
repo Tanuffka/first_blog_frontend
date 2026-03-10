@@ -8,9 +8,14 @@ export interface MutationReqData {
   fileKey: string;
 }
 
+export interface MutationResData {
+  fileKey: string;
+  fileUploadUrl: string;
+}
+
 export function useRequestFileUploadURL() {
   const mutation = useMutation<
-    AxiosResponse<{ fileKey: string; fileUploadUrl: string }>,
+    AxiosResponse<MutationResData>,
     AxiosError<{ message: string[] }>,
     MutationReqData
   >({

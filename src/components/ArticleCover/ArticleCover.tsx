@@ -1,30 +1,34 @@
+import { useState } from 'react';
+import Cropper, { type Area, type Point } from 'react-easy-crop';
+
 import Box from '@mui/material/Box';
-import type { ArticleCoverType } from 'src/shared/types/article';
-import Cropper, { type Point } from 'react-easy-crop';
-import { useEffect, useState } from 'react';
-import ButtonEditCover from './components/ButtonEditCover';
 import Grid from '@mui/material/Grid';
 import DeleteIcon from '@mui/icons-material/Delete';
 import Button from '@mui/material/Button';
+
+import { getPublicFileURL } from 'src/utils/helpers/s3.ts';
+
+import ButtonEditCover from './components/ButtonEditCover';
 import { StyledSlider } from './components/styledSlider';
 
 export interface ArticleCoverProps {
-  cover: ArticleCoverType;
-  onChange: (cover: ArticleCoverType) => void;
+  coverWidth: number;
+  coverHeight: number;
+  coverImage?: string;
   onFileSelect: (file: File | null) => void;
+  onCropComplete: (croppedAreaPixels: Area) => void;
 }
 
 export default function ArticleCover({
-  cover,
-  onChange,
+  coverWidth,
+  coverHeight,
+  coverImage,
   onFileSelect,
+  onCropComplete,
 }: ArticleCoverProps) {
-  const {
-    fileDownloadUrl,
-    cropOptions: { zoom, width, height, x, y },
-  } = cover;
-
   const [imageSrc, setImageSrc] = useState<string | null>(null);
+  const [cropPoint, setCropPoint] = useState<Point>({ x: 0, y: 0 });
+  const [zoom, setZoom] = useState(1);
 
   const handleFileSelect = (file: File | null) => {
     onFileSelect(file);
@@ -39,28 +43,21 @@ export default function ArticleCover({
   };
 
   const handleCropChange = ({ x, y }: Point) => {
-    console.log({ x, y });
-
-    // onChange({ ...cover, cropOptions: { ...cover.cropOptions, x, y } });
+    setCropPoint({ x, y });
   };
 
-  const handleImageZoom = (value: number) => {
+  const handleCropComplete = (_croppedArea: Area, croppedAreaPixels: Area) => {
+    onCropComplete(croppedAreaPixels);
+  };
+
+  const handleZoomChange = (value: number) => {
     const parsedValue = Math.round(value * 100) / 100;
-    onChange({
-      ...cover,
-      cropOptions: { ...cover.cropOptions, zoom: parsedValue },
-    });
+    setZoom(parsedValue);
   };
 
   const handleImageDelete = () => {
     setImageSrc(null);
   };
-
-  useEffect(() => {
-    if (fileDownloadUrl) {
-      setImageSrc(fileDownloadUrl);
-    }
-  }, [fileDownloadUrl]);
 
   return (
     <Grid
@@ -96,24 +93,33 @@ export default function ArticleCover({
       </Grid>
       <Box
         sx={{
-          height,
+          height: coverHeight,
           position: 'relative',
           backgroundImage: 'url(/images/image-placeholder.png)',
           backgroundPosition: 'center',
           backgroundSize: 'cover',
         }}
       >
+        {coverImage && (
+          <Box
+            component="img"
+            src={getPublicFileURL(coverImage) as string}
+            alt="article cover"
+            sx={{ width: '100%', height: '100%' }}
+          />
+        )}
         {imageSrc && (
           <Cropper
             zoomWithScroll
             objectFit="cover"
             image={imageSrc}
-            crop={{ x, y }}
-            cropSize={{ width, height }}
-            onCropChange={handleCropChange}
-            onZoomChange={handleImageZoom}
-            aspect={width / height}
+            crop={cropPoint}
+            cropSize={{ width: coverWidth, height: coverHeight }}
+            aspect={coverWidth / coverHeight}
             zoom={zoom}
+            onCropChange={handleCropChange}
+            onCropComplete={handleCropComplete}
+            onZoomChange={handleZoomChange}
           />
         )}
         {imageSrc && (
@@ -123,7 +129,7 @@ export default function ArticleCover({
               max={3}
               step={0.1}
               value={zoom}
-              onChange={(_event, value) => handleImageZoom(value as number)}
+              onChange={(_event, value) => handleZoomChange(value as number)}
             />
           </Box>
         )}

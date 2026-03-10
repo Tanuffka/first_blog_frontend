@@ -9,21 +9,7 @@ export const articleSchema = z.object({
     ])
     .readonly(),
   tags: z.array(z.string()).readonly(),
-  coverCroppedImage: z.object({
-    fileKey: z.string(),
-    fileDownloadUrl: z.string(),
-  }),
-  coverImage: z.object({
-    fileKey: z.string(),
-    fileDownloadUrl: z.string(),
-    cropOptions: z.object({
-      x: z.number(),
-      y: z.number(),
-      width: z.number(),
-      height: z.number(),
-      zoom: z.number(),
-    }),
-  }),
+  coverImage: z.string().nullable(),
 });
 
 export type ArticleSchema = z.infer<typeof articleSchema>;

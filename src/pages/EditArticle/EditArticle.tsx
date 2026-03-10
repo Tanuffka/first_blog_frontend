@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
-
 import { useNavigate } from 'react-router-dom';
 import { Controller, FormProvider, useForm } from 'react-hook-form';
 import { useParams } from 'react-router';
@@ -14,31 +13,19 @@ import Typography from '@mui/material/Typography';
 import { useFetchArticle } from 'src/hooks/useFetchArticle';
 import { useUpdateArticle } from 'src/hooks/useUpdateArticle';
 import { useRequestFileUploadURL } from 'src/hooks/useRequestFileUploadURL';
-import { useRequestFileDownloadURL } from 'src/hooks/useRequestFileDownloadURL';
 import ContentLayout from 'src/layouts/ContentLayout';
 import TextEditor from 'src/components/TextEditor';
 import ArticleCover from 'src/components/ArticleCover';
 import { articleSchema } from 'src/shared/zod/article';
+import { getCroppedImageFromFile } from 'src/utils/helpers/image';
+
+import type { Area } from 'react-easy-crop';
 
 const ARTICLE_FORM_DEFAULT_VALUES = {
   title: '',
   content: ['', 0] as const,
   tags: [],
-  coverCroppedImage: {
-    fileKey: '',
-    fileDownloadUrl: '',
-  },
-  coverImage: {
-    fileKey: '',
-    fileDownloadUrl: '',
-    cropOptions: {
-      x: 0,
-      y: 0,
-      width: 852,
-      height: 400,
-      zoom: 1,
-    },
-  },
+  coverImage: '',
 } as const;
 
 export default function EditArticle() {
@@ -46,6 +33,7 @@ export default function EditArticle() {
   const navigate = useNavigate();
 
   const [coverImageFile, setCoverImageFile] = useState<File | null>(null);
+  const [croppedAreaPixels, setCroppedAreaPixels] = useState<Area | null>(null);
 
   const { data: article, isLoading } = useFetchArticle(id!);
   const {
@@ -55,7 +43,6 @@ export default function EditArticle() {
   } = useUpdateArticle(id!);
 
   const { requestFileUploadURL } = useRequestFileUploadURL();
-  const { requestFileDownloadURL } = useRequestFileDownloadURL();
 
   const form = useForm({
     defaultValues: {
@@ -64,18 +51,20 @@ export default function EditArticle() {
     resolver: zodResolver(articleSchema),
   });
 
-  const { reset, watch } = form;
-
-  console.log(watch('coverImage'));
+  const { reset } = form;
 
   const handleSubmit = form.handleSubmit(
-    async ({ title, content, tags, coverImage, coverCroppedImage }) => {
+    async ({ title, content, tags, coverImage }) => {
       try {
-        let generatedFileKey = coverImage.fileKey;
-        let fileDownloadUrl = coverImage.fileDownloadUrl;
+        let generatedCoverImageFileKey = coverImage;
 
-        if (coverImageFile) {
+        if (coverImageFile && croppedAreaPixels) {
           const temporaryFileKey = `articles/${coverImageFile.name}`;
+
+          const croppedImage = await getCroppedImageFromFile(
+            coverImageFile,
+            croppedAreaPixels,
+          );
 
           const requestedFileUploadUrl = await requestFileUploadURL({
             fileKey: temporaryFileKey,
@@ -83,29 +72,19 @@ export default function EditArticle() {
 
           const { fileKey, fileUploadUrl } = requestedFileUploadUrl.data;
 
+          generatedCoverImageFileKey = fileKey;
+
           await fetch(fileUploadUrl, {
             method: 'PUT',
-            body: coverImageFile,
+            body: croppedImage,
           });
-
-          const requestedFileDownloadUrl = await requestFileDownloadURL({
-            fileKey,
-          });
-
-          generatedFileKey = fileKey;
-          fileDownloadUrl = requestedFileDownloadUrl.data || '';
         }
 
         updateArticle({
           title,
           content: content[0],
           tags,
-          coverImage: {
-            ...coverImage,
-            fileKey: generatedFileKey,
-            fileDownloadUrl,
-          },
-          coverCroppedImage,
+          coverImage: generatedCoverImageFileKey,
         });
       } catch (error) {
         console.error(error);
@@ -121,6 +100,10 @@ export default function EditArticle() {
     setCoverImageFile(file);
   };
 
+  const handleCropComplete = (croppedAreaPixels: Area) => {
+    setCroppedAreaPixels(croppedAreaPixels);
+  };
+
   useEffect(() => {
     if (!article) {
       return;
@@ -130,9 +113,8 @@ export default function EditArticle() {
       ...ARTICLE_FORM_DEFAULT_VALUES,
       title: article.title,
       content: [article.content, article.content.length],
-      tags: article.tags,
+      tags: article.tags?.map((tag) => tag.name) || [],
       coverImage: article.coverImage,
-      coverCroppedImage: article.coverCroppedImage,
     });
   }, [article, reset]);
 
@@ -147,16 +129,12 @@ export default function EditArticle() {
           overflow: 'hidden',
         }}
       >
-        <Controller
-          name="coverImage"
-          control={form.control}
-          render={({ field }) => (
-            <ArticleCover
-              cover={field.value}
-              onChange={field.onChange}
-              onFileSelect={handleCoverImageFileSelect}
-            />
-          )}
+        <ArticleCover
+          coverImage={article?.coverImage}
+          coverWidth={852}
+          coverHeight={400}
+          onFileSelect={handleCoverImageFileSelect}
+          onCropComplete={handleCropComplete}
         />
       </Grid>
       <Grid

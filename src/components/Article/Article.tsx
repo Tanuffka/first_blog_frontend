@@ -12,6 +12,7 @@ import { getAcronyms, getFullName } from 'src/utils/helpers/user';
 import { type ArticleApiResponseSchema } from 'src/shared/api';
 import Date from 'src/components/Date';
 import TextEditor from 'src/components/TextEditor';
+import { getPublicFileURL } from 'src/utils/helpers/s3.ts';
 
 type ArticleProps = ArticleApiResponseSchema;
 
@@ -20,15 +21,26 @@ export default function Article({
   title,
   content,
   author,
+  coverImage,
   createdAt,
 }: ArticleProps) {
+  const articleCoverImageURL = getPublicFileURL(coverImage);
+
   return (
     <Card variant="outlined" sx={{ width: '100%' }}>
       <Box
         sx={{
           position: 'relative',
           height: '200px',
-          img: { width: '100%', height: '100%', objectFit: 'cover' },
+          backgroundColor: 'grey',
+          backgroundImage: 'url(/images/image-placeholder.png)',
+          backgroundPosition: 'center',
+          backgroundSize: 'cover',
+          img: {
+            width: '100%',
+            height: '100%',
+            objectFit: 'cover',
+          },
         }}
       >
         <Button
@@ -47,7 +59,9 @@ export default function Article({
         >
           View
         </Button>
-        <img src="/images/image-placeholder.png" alt="image placeholder" />
+        {articleCoverImageURL && (
+          <img src={articleCoverImageURL} alt="article cover" />
+        )}
       </Box>
       <CardContent sx={{ p: 4, pb: 6 }}>
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
