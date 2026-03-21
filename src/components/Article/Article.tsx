@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
@@ -10,9 +10,12 @@ import Button from '@mui/material/Button';
 
 import { getAcronyms, getFullName } from 'src/utils/helpers/user';
 import { type ArticleApiResponseSchema } from 'src/shared/api';
-import Date from 'src/components/Date';
+import Date from 'src/components/PostingDate';
 import TextEditor from 'src/components/TextEditor';
 import { getPublicFileURL } from 'src/utils/helpers/s3.ts';
+import { useFetchMe } from 'src/hooks/useFetchMe';
+import { useFetchArticle } from 'src/hooks/useFetchArticle';
+import { useSession } from 'src/stores/useSession';
 
 type ArticleProps = ArticleApiResponseSchema;
 
@@ -24,6 +27,17 @@ export default function Article({
   coverImage,
   createdAt,
 }: ArticleProps) {
+  const { id } = useParams<{ id: string }>();
+  const { data: article } = useFetchArticle(id!);
+  const { data: currentUser } = useFetchMe();
+
+  const { isAuthenticated } = useSession();
+  if (!isAuthenticated || !currentUser) {
+    return null;
+  }
+
+  const userAcronyms = getAcronyms(currentUser.firstname, currentUser.lastname);
+
   const articleCoverImageURL = getPublicFileURL(coverImage);
 
   return (
@@ -31,7 +45,7 @@ export default function Article({
       <Box
         sx={{
           position: 'relative',
-          height: '200px',
+          height: '400px',
           backgroundColor: 'grey',
           backgroundImage: 'url(/images/image-placeholder.png)',
           backgroundPosition: 'center',
@@ -66,11 +80,9 @@ export default function Article({
       <CardContent sx={{ p: 4, pb: 6 }}>
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
           <Box sx={{ pr: 1 }}>
-            <MuiAvatar
-              alt={getAcronyms(author.firstname, author.lastname)}
-              src="/static/images/avatar/2.jpg"
-            />
+            <MuiAvatar alt={userAcronyms} src={author.avatarUrl} />
           </Box>
+
           <Box>
             <Typography>
               {getFullName(author.firstname, author.lastname)}

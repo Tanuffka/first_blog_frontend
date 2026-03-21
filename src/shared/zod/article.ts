@@ -5,7 +5,7 @@ export const articleSchema = z.object({
   content: z
     .tuple([
       z.string(),
-      z.number().gt(10, 'Content must be at least 10 characters'),
+      z.number().gt(100, 'Content must be at least 100 characters'),
     ])
     .readonly(),
   tags: z.array(z.string()).readonly(),

@@ -25,7 +25,7 @@ export default function ContentLayout({ children, title, sidebar }: Props) {
           {title}
         </Typography>
       </Box>
-      <Grid container >
+      <Grid container spacing={5}>
         <Grid flex={1}>
           <Paper
             sx={{

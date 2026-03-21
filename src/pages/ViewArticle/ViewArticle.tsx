@@ -11,13 +11,15 @@ import CircularProgress from '@mui/material/CircularProgress';
 import Button from '@mui/material/Button';
 
 import { useFetchArticle } from 'src/hooks/useFetchArticle';
-import Date from 'src/components/Date';
+
+import Date from 'src/components/PostingDate';
 import { getAcronyms, getFullName } from 'src/utils/helpers/user';
 import { useFetchMe } from 'src/hooks/useFetchMe';
 import TextEditor from 'src/components/TextEditor';
 import { getPublicFileURL } from 'src/utils/helpers/s3';
 
 import ButtonDeleteArticle from './components/ButtonDeleteArticle';
+import ArticleComments from 'src/components/ArticleComments';
 
 export default function ViewArticle() {
   const { id } = useParams<{ id: string }>();
@@ -101,7 +103,7 @@ export default function ViewArticle() {
                 article.author.firstname,
                 article.author.lastname,
               )}
-              src="/static/images/avatar/2.jpg"
+              src={article.author.avatarUrl}
             />
             <Box>
               <Typography>
@@ -120,6 +122,7 @@ export default function ViewArticle() {
           </Grid>
         </Grid>
       </Paper>
+      <ArticleComments />
     </Container>
   );
 }

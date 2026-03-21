@@ -4,7 +4,7 @@ type ArticleDateProps = {
   createdAt: string;
 };
 
-const ArticleDate = ({ createdAt }: ArticleDateProps) => {
+const PostingDate = ({ createdAt }: ArticleDateProps) => {
   const date = new Date(createdAt);
 
   const formatted = date.toLocaleString(undefined, {
@@ -23,4 +23,4 @@ const ArticleDate = ({ createdAt }: ArticleDateProps) => {
   );
 };
 
-export default ArticleDate;
+export default PostingDate;
