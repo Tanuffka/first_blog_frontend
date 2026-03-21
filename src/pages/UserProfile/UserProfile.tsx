@@ -70,6 +70,11 @@ export default function UserProfile() {
       sidebar={<AvatarContainer />}
       title={`Profile: ${currentUser.firstname} ${currentUser.lastname}`}
     >
+      <Grid sx={{
+          width: '100%',
+          height: '100%',
+          padding: 6,
+        }}>
       <FormProvider {...form}>
         <Grid
           noValidate
@@ -205,6 +210,7 @@ export default function UserProfile() {
           )}
         </Grid>
       </FormProvider>
+      </Grid>
     </ContentLayout>
   );
 }

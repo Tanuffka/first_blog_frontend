@@ -15,8 +15,9 @@ export interface ArticleApiResponseSchema {
   title: string;
   content: string;
   author: UserApiResponseSchema;
-  tags: string[];
+  tags: { _id: string; name: string }[];
   viewsCount: number;
   createdAt: string;
   updatedAt: string;
+  coverImage: string;
 }

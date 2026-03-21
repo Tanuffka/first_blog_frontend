@@ -25,14 +25,14 @@ export default function ContentLayout({ children, title, sidebar }: Props) {
           {title}
         </Typography>
       </Box>
-      <Grid container spacing={5}>
+      <Grid container >
         <Grid flex={1}>
           <Paper
             sx={{
               display: 'flex',
               flexDirection: 'column',
               alignItems: 'center',
-              p: 6,
+              overflow: 'hidden',
             }}
           >
             {children}

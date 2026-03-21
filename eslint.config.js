@@ -1,5 +1,6 @@
 import js from '@eslint/js';
 import globals from 'globals';
+import { defineConfig } from 'eslint/config';
 import tseslint from 'typescript-eslint';
 import reactPlugin from 'eslint-plugin-react';
 import reactHooksPlugin from 'eslint-plugin-react-hooks';
@@ -9,15 +10,17 @@ import importPlugin from 'eslint-plugin-import-x';
 import { createTypeScriptImportResolver } from 'eslint-import-resolver-typescript';
 import allyjsxPlugin from 'eslint-plugin-jsx-a11y';
 
-export default tseslint.config(
+export default defineConfig(
   {
     ignores: [
       'dist',
+      'build',
       'coverage',
-      'node_modules/*',
-      '**/*/vite-env.d.ts',
-      '**/*/react-app-env.d.ts',
+      'node_modules',
       'package-lock.json',
+      'yarn.lock',
+      'bun.lock',
+      '**/*/vite-env.d.ts',
     ],
   },
   {
@@ -63,6 +66,8 @@ export default tseslint.config(
           ignoreMemberSort: false,
         },
       ],
+      // 'import-x/newline-after-import': 'error',
+      // 'import-x/no-cycle': 'error',
       'import-x/order': [
         'error',
         {

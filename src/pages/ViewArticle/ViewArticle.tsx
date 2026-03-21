@@ -15,6 +15,7 @@ import Date from 'src/components/Date';
 import { getAcronyms, getFullName } from 'src/utils/helpers/user';
 import { useFetchMe } from 'src/hooks/useFetchMe';
 import TextEditor from 'src/components/TextEditor';
+import { getPublicFileURL } from 'src/utils/helpers/s3';
 
 import ButtonDeleteArticle from './components/ButtonDeleteArticle';
 
@@ -38,6 +39,8 @@ export default function ViewArticle() {
   if (!article) {
     return null;
   }
+
+  const articleCoverImageURL = getPublicFileURL(article.coverImage);
 
   return (
     <Container maxWidth="md">
@@ -69,6 +72,7 @@ export default function ViewArticle() {
           display: 'flex',
           flexDirection: 'column',
           minHeight: '600px',
+          overflow: 'hidden',
         }}
       >
         <Box
@@ -76,6 +80,9 @@ export default function ViewArticle() {
             position: 'relative',
             height: '400px',
             backgroundColor: 'grey',
+            backgroundImage: 'url(/images/image-placeholder.png)',
+            backgroundPosition: 'center',
+            backgroundSize: 'cover',
             img: {
               width: '100%',
               height: '100%',
@@ -83,14 +90,16 @@ export default function ViewArticle() {
             },
           }}
         >
-          <img src="/images/image-placeholder.png" alt="image placeholder" />
+          {articleCoverImageURL && (
+            <img src={articleCoverImageURL} alt="article cover" />
+          )}
         </Box>
         <Grid container flexDirection="column" p={6}>
           <Grid container alignItems="center" spacing={2} mb={2}>
             <MuiAvatar
               alt={getAcronyms(
                 article.author.firstname,
-                article.author.lastname
+                article.author.lastname,
               )}
               src="/static/images/avatar/2.jpg"
             />

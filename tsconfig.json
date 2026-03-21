@@ -1,5 +1,10 @@
 {
-  "include": ["src", "eslint.config.js", "prettier.config.js", "vite.config.js"],
+  "include": [
+    "src",
+    "eslint.config.js",
+    "prettier.config.js",
+    "vite.config.js"
+  ],
 
   "compilerOptions": {
     "target": "ES2022",
@@ -25,7 +30,7 @@
     /* Paths and Aliases */
     "baseUrl": ".",
     "paths": {
-      "src/*": ["./src/*"],
+      "src/*": ["./src/*"]
     }
   }
 }
