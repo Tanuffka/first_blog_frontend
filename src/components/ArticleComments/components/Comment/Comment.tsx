@@ -12,7 +12,9 @@ export default function Comment({
   author,
 }: CommentApiResponseSchema) {
   const { data: currentUser } = useFetchMe();
+  
   const { isAuthenticated } = useSession();
+  
   if (!isAuthenticated || !currentUser) {
     return null;
   }

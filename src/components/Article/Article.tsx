@@ -46,7 +46,7 @@ export default function Article({
       <Box
         sx={{
           position: 'relative',
-          height: '400px',
+          height: 400,
           backgroundColor: 'grey',
           backgroundImage: 'url(/images/image-placeholder.png)',
           backgroundPosition: 'center',

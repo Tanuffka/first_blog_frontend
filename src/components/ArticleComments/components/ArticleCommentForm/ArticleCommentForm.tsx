@@ -55,7 +55,7 @@ export default function ArticleCommentForm() {
           </>
         )}
       />
-      <Grid container justifyContent={'right'}>
+      <Grid container justifyContent="right">
         <Button
           fullWidth
           loading={isCreating}
