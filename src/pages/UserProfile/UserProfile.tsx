@@ -70,146 +70,153 @@ export default function UserProfile() {
       sidebar={<AvatarContainer />}
       title={`Profile: ${currentUser.firstname} ${currentUser.lastname}`}
     >
-      <Grid sx={{
+      <Grid
+        sx={{
           width: '100%',
           height: '100%',
           padding: 6,
-        }}>
-      <FormProvider {...form}>
-        <Grid
-          noValidate
-          container
-          component="form"
-          autoComplete="off"
-          flexDirection="column"
-          spacing={2}
-          sx={{ width: '100%' }}
-          onSubmit={onSubmit}
-        >
-          <Controller
-            name="firstname"
-            control={form.control}
-            render={({ field, formState: { errors } }) => (
-              <TextField
-                fullWidth
-                required
-                disabled={!isEditable}
-                variant="outlined"
-                error={!!errors.firstname}
-                helperText={errors.firstname?.message}
-                {...field}
-                slotProps={{
-                  input: {
-                    startAdornment: (
-                      <InputAdornment position="start">
-                        Firstname:
-                      </InputAdornment>
-                    ),
-                  },
-                }}
-              />
-            )}
-          />
-          <Controller
-            name="lastname"
-            control={form.control}
-            render={({ field, formState: { errors } }) => (
-              <TextField
-                fullWidth
-                required
-                disabled={!isEditable}
-                variant="outlined"
-                error={!!errors.lastname}
-                helperText={errors.lastname?.message}
-                {...field}
-                slotProps={{
-                  input: {
-                    startAdornment: (
-                      <InputAdornment position="start">
-                        Lastname:
-                      </InputAdornment>
-                    ),
-                  },
-                }}
-              />
-            )}
-          />
-          <Controller
-            name="bio"
-            control={form.control}
-            render={({ field, formState: { errors } }) => (
-              <TextField
-                fullWidth
-                required
-                multiline
-                disabled={!isEditable}
-                rows={4}
-                variant="outlined"
-                error={!!errors.bio}
-                helperText={errors.bio?.message}
-                {...field}
-                slotProps={{
-                  input: {
-                    startAdornment: (
-                      <InputAdornment
-                        position="start"
-                        sx={{ alignSelf: 'start' }}
-                      >
-                        BIO:{' '}
-                      </InputAdornment>
-                    ),
-                  },
-                }}
-              />
-            )}
-          />
-          {errorMessages?.map((message, index) => (
-            <Typography key={index} fontWeight={600} color="red" component="p">
-              {message}
-            </Typography>
-          ))}
-          {!isEditable && (
-            <Grid container justifyContent="flex-end">
-              <Button
-                fullWidth
-                variant="contained"
-                size="medium"
-                sx={{ maxWidth: 200 }}
-                onClick={handleEditClick}
+        }}
+      >
+        <FormProvider {...form}>
+          <Grid
+            noValidate
+            container
+            component="form"
+            autoComplete="off"
+            flexDirection="column"
+            spacing={2}
+            sx={{ width: '100%' }}
+            onSubmit={onSubmit}
+          >
+            <Controller
+              name="firstname"
+              control={form.control}
+              render={({ field, formState: { errors } }) => (
+                <TextField
+                  fullWidth
+                  required
+                  disabled={!isEditable}
+                  variant="outlined"
+                  error={!!errors.firstname}
+                  helperText={errors.firstname?.message}
+                  {...field}
+                  slotProps={{
+                    input: {
+                      startAdornment: (
+                        <InputAdornment position="start">
+                          Firstname:
+                        </InputAdornment>
+                      ),
+                    },
+                  }}
+                />
+              )}
+            />
+            <Controller
+              name="lastname"
+              control={form.control}
+              render={({ field, formState: { errors } }) => (
+                <TextField
+                  fullWidth
+                  required
+                  disabled={!isEditable}
+                  variant="outlined"
+                  error={!!errors.lastname}
+                  helperText={errors.lastname?.message}
+                  {...field}
+                  slotProps={{
+                    input: {
+                      startAdornment: (
+                        <InputAdornment position="start">
+                          Lastname:
+                        </InputAdornment>
+                      ),
+                    },
+                  }}
+                />
+              )}
+            />
+            <Controller
+              name="bio"
+              control={form.control}
+              render={({ field, formState: { errors } }) => (
+                <TextField
+                  fullWidth
+                  required
+                  multiline
+                  disabled={!isEditable}
+                  rows={4}
+                  variant="outlined"
+                  error={!!errors.bio}
+                  helperText={errors.bio?.message}
+                  {...field}
+                  slotProps={{
+                    input: {
+                      startAdornment: (
+                        <InputAdornment
+                          position="start"
+                          sx={{ alignSelf: 'start' }}
+                        >
+                          BIO:{' '}
+                        </InputAdornment>
+                      ),
+                    },
+                  }}
+                />
+              )}
+            />
+            {errorMessages?.map((message, index) => (
+              <Typography
+                key={index}
+                fontWeight={600}
+                color="red"
+                component="p"
               >
-                Edit
-              </Button>
-            </Grid>
-          )}
-          {isEditable && (
-            <Grid display="flex" justifyContent="space-between">
-              <Button
-                fullWidth
-                variant="outlined"
-                size="medium"
-                sx={{
-                  maxWidth: 200,
-                }}
-                onClick={handleCancelClick}
-              >
-                Cancel
-              </Button>
-              <Button
-                fullWidth
-                loading={isUpdating}
-                type="submit"
-                variant="contained"
-                size="medium"
-                sx={{
-                  maxWidth: 200,
-                }}
-              >
-                Update
-              </Button>
-            </Grid>
-          )}
-        </Grid>
-      </FormProvider>
+                {message}
+              </Typography>
+            ))}
+            {!isEditable && (
+              <Grid container justifyContent="flex-end">
+                <Button
+                  fullWidth
+                  variant="contained"
+                  size="medium"
+                  sx={{ maxWidth: 200 }}
+                  onClick={handleEditClick}
+                >
+                  Edit
+                </Button>
+              </Grid>
+            )}
+            {isEditable && (
+              <Grid display="flex" justifyContent="space-between">
+                <Button
+                  fullWidth
+                  variant="outlined"
+                  size="medium"
+                  sx={{
+                    maxWidth: 200,
+                  }}
+                  onClick={handleCancelClick}
+                >
+                  Cancel
+                </Button>
+                <Button
+                  fullWidth
+                  loading={isUpdating}
+                  type="submit"
+                  variant="contained"
+                  size="medium"
+                  sx={{
+                    maxWidth: 200,
+                  }}
+                >
+                  Update
+                </Button>
+              </Grid>
+            )}
+          </Grid>
+        </FormProvider>
       </Grid>
     </ContentLayout>
   );

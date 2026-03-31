@@ -3,7 +3,6 @@ import Grid from '@mui/material/Grid';
 import CircularProgress from '@mui/material/CircularProgress';
 
 import Article from 'src/components/Article';
-import Sidebar from 'src/components/Sidebar';
 import { useFetchArticles } from 'src/hooks/useFetchArticles';
 
 export default function Home() {
@@ -21,7 +20,6 @@ export default function Home() {
           <Article key={article._id} {...article} />
         ))}
       </Grid>
-      <Sidebar />
     </Container>
   );
 }
