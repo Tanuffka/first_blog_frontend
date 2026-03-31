@@ -32,6 +32,7 @@ export default function Article({
   const { data: currentUser } = useFetchMe();
 
   const { isAuthenticated } = useSession();
+  
   if (!isAuthenticated || !currentUser) {
     return null;
   }
