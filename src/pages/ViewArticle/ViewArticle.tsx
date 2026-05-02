@@ -20,6 +20,7 @@ import { getPublicFileURL } from 'src/utils/helpers/s3';
 
 import ButtonDeleteArticle from './components/ButtonDeleteArticle';
 import ArticleComments from 'src/components/ArticleComments';
+import Tags from 'src/components/Article/components/Tags';
 
 export default function ViewArticle() {
   const { id } = useParams<{ id: string }>();
@@ -112,6 +113,7 @@ export default function ViewArticle() {
               <Date createdAt={article.createdAt} />
             </Box>
           </Grid>
+          <Tags tags={article.tags} />
           <Grid>
             <Typography variant="h6" component="h1">
               {article.title}

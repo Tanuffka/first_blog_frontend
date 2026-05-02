@@ -16,12 +16,14 @@ import { getPublicFileURL } from 'src/utils/helpers/s3.ts';
 import { useFetchMe } from 'src/hooks/useFetchMe';
 import { useFetchArticle } from 'src/hooks/useFetchArticle';
 import { useSession } from 'src/stores/useSession';
+import Tags from './components/Tags';
 
 type ArticleProps = ArticleApiResponseSchema;
 
 export default function Article({
   _id,
   title,
+  tags,
   content,
   author,
   coverImage,
@@ -32,7 +34,7 @@ export default function Article({
   const { data: currentUser } = useFetchMe();
 
   const { isAuthenticated } = useSession();
-  
+
   if (!isAuthenticated || !currentUser) {
     return null;
   }
@@ -40,7 +42,6 @@ export default function Article({
   const userAcronyms = getAcronyms(currentUser.firstname, currentUser.lastname);
 
   const articleCoverImageURL = getPublicFileURL(coverImage);
-
   return (
     <Card variant="outlined" sx={{ width: '100%' }}>
       <Box
@@ -99,6 +100,7 @@ export default function Article({
                   textOverflow: 'ellipsis',
                   whiteSpace: 'nowrap',
                   overflow: 'hidden',
+                  fontWeight: '600',
                 }}
                 variant="h6"
               >
@@ -118,6 +120,7 @@ export default function Article({
           >
             <TextEditor isPlainText editable={false} content={content} />
           </Box>
+          <Tags tags={tags} />
         </Box>
       </CardContent>
     </Card>

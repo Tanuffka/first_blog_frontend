@@ -15,8 +15,8 @@ export interface ArticleApiResponseSchema {
   _id: string;
   title: string;
   content: string;
+  tags?: TagSchema[];
   author: UserApiResponseSchema;
-  tags: { _id: string; name: string }[];
   viewsCount: number;
   createdAt: string;
   updatedAt: string;
@@ -29,4 +29,12 @@ export interface CommentApiResponseSchema {
   createdAt: string;
   updatedAt: string;
   author: UserApiResponseSchema;
+}
+
+export interface TagSchema extends TagsApiResponseSchema {
+  name: string;
+  article: string;
+}
+export interface TagsApiResponseSchema {
+  tags?: TagSchema[];
 }

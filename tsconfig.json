@@ -28,7 +28,6 @@
     "noUncheckedSideEffectImports": true,
 
     /* Paths and Aliases */
-    "baseUrl": ".",
     "paths": {
       "src/*": ["./src/*"]
     }
