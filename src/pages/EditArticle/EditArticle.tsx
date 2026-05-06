@@ -20,6 +20,7 @@ import { articleSchema } from 'src/shared/zod/article';
 import { getCroppedImageFromFile } from 'src/utils/helpers/image';
 
 import type { Area } from 'react-easy-crop';
+import Autocomplete from '@mui/material/Autocomplete';
 
 const ARTICLE_FORM_DEFAULT_VALUES = {
   title: '',
@@ -167,6 +168,31 @@ export default function EditArticle() {
                   error={!!errors.title}
                   helperText={errors.title?.message}
                   {...field}
+                />
+              )}
+            />
+            <Controller
+              name="tags"
+              control={form.control}
+              render={({ field, formState: { errors } }) => (
+                <Autocomplete
+                  content={field.value[0]}
+                  multiple
+                  freeSolo
+                  options={[]}
+                  value={Array.isArray(field.value) ? [...field.value] : []}
+                  onChange={(_event, newValue) => {
+                    field.onChange(newValue);
+                  }}
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      fullWidth
+                      error={!!errors.tags}
+                      helperText={errors.tags?.message}
+                      placeholder="tags"
+                    />
+                  )}
                 />
               )}
             />

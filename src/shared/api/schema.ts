@@ -34,6 +34,7 @@ export interface CommentApiResponseSchema {
 export interface TagSchema extends TagsApiResponseSchema {
   name: string;
   article: string;
+  id: string;
 }
 export interface TagsApiResponseSchema {
   tags?: TagSchema[];

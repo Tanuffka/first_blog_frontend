@@ -3,11 +3,11 @@ import Chip from '@mui/material/Chip';
 import Box from '@mui/material/Box';
 import { type TagsApiResponseSchema } from 'src/shared/api/schema';
 
-export default function Tags({
-  tags = [],
-}: {
+interface TagsProps {
   tags?: TagsApiResponseSchema['tags'];
-}) {
+}
+
+export default function Tags({ tags = [] }: TagsProps) {
   if (!tags || tags.length === 0) return null;
 
   return (
