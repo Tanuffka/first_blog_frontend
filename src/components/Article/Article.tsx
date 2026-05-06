@@ -42,6 +42,7 @@ export default function Article({
   const userAcronyms = getAcronyms(currentUser.firstname, currentUser.lastname);
 
   const articleCoverImageURL = getPublicFileURL(coverImage);
+
   return (
     <Card variant="outlined" sx={{ width: '100%' }}>
       <Box
