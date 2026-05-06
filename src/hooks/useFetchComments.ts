@@ -6,9 +6,12 @@ import type { CommentApiResponseSchema } from 'src/shared/api/schema';
 export function useFetchComments(id: string) {
   return useQuery({
     queryKey: ['comments', { id }],
-    queryFn: () =>
-      publicApi
+    queryFn: async () => {
+      return publicApi
         .get<CommentApiResponseSchema[]>(`/api/articles/${id}/comments`)
-        .then((response) => response.data),
+        .then((response) => response.data);
+    },
+    enabled: !!id,
+    retry: false,
   });
 }

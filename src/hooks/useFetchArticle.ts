@@ -11,6 +11,7 @@ export function useFetchArticle(id: string) {
         .get<ArticleApiResponseSchema>(`/api/articles/${id}`)
         .then((response) => response.data);
     },
+    enabled: !!id,
     retry: false,
   });
 }

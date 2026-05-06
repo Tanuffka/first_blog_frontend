@@ -7,6 +7,7 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
+import Autocomplete from '@mui/material/Autocomplete';
 
 import ContentLayout from 'src/layouts/ContentLayout';
 import { useCreateArticle } from 'src/hooks/useCreateArticle';
@@ -131,6 +132,30 @@ export default function CreateArticle() {
                   error={!!errors.title}
                   helperText={errors.title?.message}
                   {...field}
+                />
+              )}
+            />
+            <Controller
+              name="tags"
+              control={form.control}
+              render={({ field, formState: { errors } }) => (
+                <Autocomplete
+                  content={field.value[0]}
+                  multiple
+                  freeSolo
+                  options={[]}
+                  onChange={(_event, value) => {
+                    field.onChange(value);
+                  }}
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      fullWidth
+                      error={!!errors.tags}
+                      helperText={errors.tags?.message}
+                      placeholder="Tags"
+                    />
+                  )}
                 />
               )}
             />
