@@ -3,7 +3,6 @@ import Comment from './components/Comment/Comment';
 import ArticleCommentForm from './components/ArticleCommentForm';
 import { useParams } from 'react-router-dom';
 import { useFetchComments } from 'src/hooks/useFetchComments';
-// import Box from '@mui/material/Box';
 
 export default function ArticleComments() {
   const { id } = useParams<{ id: string }>();
