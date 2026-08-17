@@ -4,9 +4,9 @@ import { Box } from '@mui/material';
 import SearchInputByTitle from './ArticleSearchByTitle';
 import TagsInputFilter from './ArticleTagsFilter/TagsInputFilter';
 
-type ArticleFilterProps = {
+export interface ArticleFilterProps {
   onChange: (filters: FilterApiResponseSchema) => void;
-};
+}
 
 function ArticleFilter({ onChange }: ArticleFilterProps) {
   const [searchKeyword, setSearchKeyword] = useState<string>('');
@@ -35,7 +35,7 @@ function ArticleFilter({ onChange }: ArticleFilterProps) {
         tags: newTags,
       });
     },
-    [onChange, searchKeyword],
+    [searchKeyword, onChange],
   );
 
   return (

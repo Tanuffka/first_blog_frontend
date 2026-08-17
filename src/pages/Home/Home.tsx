@@ -11,23 +11,23 @@ import ArticleSearch from 'src/components/ArticleFilter/components';
 import {
   useSearchArticle,
   type FilterApiResponseSchema,
+  type ArticleSearchParams,
 } from 'src/hooks/useSearchArticle';
 
 export default function Home() {
   const [order, setOrder] = useState<'ASC' | 'DESC'>('DESC');
   const [page, setPage] = useState<number>(1);
 
-  const [searchParams, setSearchParams] = useState<
-    Omit<FilterApiResponseSchema, 'order' | 'page' | 'limit'>
-  >({
+  const [searchParams, setSearchParams] = useState<ArticleSearchParams>({
     searchByTitle: true,
+    searchKeyword: '',
+    tags: [],
   });
 
   const { data: { data: articles = [] } = { data: [] }, isLoading } =
     useSearchArticle({
       order,
       page,
-      limit: 5,
       ...searchParams,
     });
 
@@ -43,7 +43,6 @@ export default function Home() {
         tags: incomingFilters.tags,
         author: incomingFilters.author,
       });
-      setPage(1);
     },
     [],
   );
@@ -65,18 +64,20 @@ export default function Home() {
       <ArticleSearch onChange={handleSearchChange} />
 
       <Grid container spacing={2}>
-        {isLoading ? (
+        {isLoading && (
           <Grid container flex={1} justifyContent="center" alignItems="center">
             <CircularProgress />
           </Grid>
-        ) : (
-          articles.map((article) => <Article key={article._id} {...article} />)
         )}
+        {articles?.map((article) => (
+          <Article key={article._id} {...article} />
+        ))}
       </Grid>
 
       <Box display="flex" justifyContent="center" my={4}>
         <Pagination
           count={5}
+          defaultPage={0}
           page={page}
           onChange={handlePageChange}
           color="primary"

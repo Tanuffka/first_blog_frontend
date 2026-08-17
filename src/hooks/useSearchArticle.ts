@@ -12,6 +12,11 @@ export interface FilterApiResponseSchema {
   author?: string;
 }
 
+export type ArticleSearchParams = Pick<
+  FilterApiResponseSchema,
+  'searchKeyword' | 'searchByTitle' | 'tags' | 'author'
+>;
+
 export function useSearchArticle(filters: FilterApiResponseSchema = {}) {
   const {
     order = 'DESC',
