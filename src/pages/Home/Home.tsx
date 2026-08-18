@@ -1,11 +1,11 @@
 import { useCallback, useState, type ChangeEvent } from 'react';
-import {
-  Container,
-  Grid,
-  CircularProgress,
-  Pagination,
-  Box,
-} from '@mui/material';
+
+import Box from '@mui/material/Box';
+import CircularProgress from '@mui/material/CircularProgress';
+import Container from '@mui/material/Container';
+import Grid from '@mui/material/Grid';
+import Pagination from '@mui/material/Pagination';
+
 import Article from 'src/components/Article';
 import ArticleSearch from 'src/components/ArticleFilter/components';
 import {

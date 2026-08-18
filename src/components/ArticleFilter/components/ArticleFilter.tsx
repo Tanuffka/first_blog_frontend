@@ -1,10 +1,13 @@
-import type { FilterApiResponseSchema } from 'src/hooks/useSearchArticle';
 import { memo, useCallback, useState } from 'react';
+
 import { Box } from '@mui/material';
+
+import type { FilterApiResponseSchema } from 'src/hooks/useSearchArticle';
+
 import SearchInputByTitle from './ArticleSearchByTitle';
 import TagsInputFilter from './ArticleTagsFilter/TagsInputFilter';
 
-export interface ArticleFilterProps {
+interface ArticleFilterProps {
   onChange: (filters: FilterApiResponseSchema) => void;
 }
 
@@ -22,7 +25,7 @@ function ArticleFilter({ onChange }: ArticleFilterProps) {
         tags,
       });
     },
-    [onChange, tags],
+    [tags, onChange],
   );
 
   const handleTagsChange = useCallback(

@@ -1,4 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
+
 import { publicApi } from 'src/shared/api';
 import type { SearchArticleApiResponseSchema } from 'src/shared/api';
 

@@ -1,9 +1,13 @@
 import { useState } from 'react';
 import { useDebounce } from 'use-debounce';
-import { useSearchTags } from 'src/hooks/useSearchTags';
-import { Autocomplete, TextField, CircularProgress } from '@mui/material';
 
-export interface ArticleTagsFilterProps {
+import Autocomplete from '@mui/material/Autocomplete';
+import CircularProgress from '@mui/material/CircularProgress';
+import TextField from '@mui/material/TextField';
+
+import { useSearchTags } from 'src/hooks/useSearchTags';
+
+interface ArticleTagsFilterProps {
   onChange: (tags: string[]) => void;
 }
 
