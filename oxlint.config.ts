@@ -1,23 +1,17 @@
 import { defineConfig } from 'oxlint';
 
 export default defineConfig({
-  plugins: ['typescript', 'react', 'jsx-a11y'],
-
   jsPlugins: ['eslint-plugin-perfectionist'],
+
+  plugins: ['typescript', 'react', 'jsx-a11y'],
 
   categories: {
     correctness: 'off',
   },
 
-  options: {
-    typeAware: true,
-    typeCheck: true,
-    maxWarnings: 10,
-  },
-
   env: {
-    builtin: true,
     browser: true,
+    builtin: true,
   },
 
   ignorePatterns: [
@@ -31,40 +25,29 @@ export default defineConfig({
     '**/*/vite-env.d.ts',
   ],
 
+  options: {
+    maxWarnings: 10,
+    typeAware: true,
+    typeCheck: true,
+  },
+
   overrides: [
     {
       files: ['**/*.{ts,tsx}'],
 
       rules: {
-        'perfectionist/sort-jsx-props': [
-          'error',
-          {
-            type: 'line-length',
-            order: 'asc',
-            ignoreCase: true,
-            groups: [
-              'important',
-              'shorthand-prop',
-              'unknown',
-              'multiline-prop',
-              'callback',
-            ],
-            customGroups: [
-              {
-                groupName: 'important',
-                elementNamePattern: '^(id|key|ref)$',
-              },
-              {
-                groupName: 'callback',
-                elementNamePattern: '^on.+',
-              },
-            ],
-          },
-        ],
-
         'constructor-super': 'error',
         'for-direction': 'error',
         'getter-return': 'error',
+        'import/default': 'error',
+        'import/export': 'error',
+        'import/named': 'off',
+        'import/namespace': 'error',
+        'import/no-duplicates': 'warn',
+        'import/no-named-as-default': 'warn',
+        'import/no-named-as-default-member': 'warn',
+        'jsx-a11y/media-has-caption': 'off',
+        'no-array-constructor': 'error',
         'no-async-promise-executor': 'error',
         'no-case-declarations': 'error',
         'no-class-assign': 'error',
@@ -111,6 +94,7 @@ export default defineConfig({
         'no-unsafe-finally': 'error',
         'no-unsafe-negation': 'error',
         'no-unsafe-optional-chaining': 'error',
+        'no-unused-expressions': 'error',
         'no-unused-labels': 'error',
         'no-unused-private-class-members': 'error',
         'no-unused-vars': 'warn',
@@ -118,36 +102,8 @@ export default defineConfig({
         'no-useless-catch': 'error',
         'no-useless-escape': 'error',
         'no-with': 'error',
-        'require-yield': 'error',
-        'use-isnan': 'error',
-        'valid-typeof': 'error',
-        'no-array-constructor': 'error',
-        'no-unused-expressions': 'error',
-        'typescript/ban-ts-comment': 'error',
-        'typescript/no-duplicate-enum-values': 'error',
-        'typescript/no-empty-object-type': 'error',
-        'typescript/no-explicit-any': 'warn',
-        'typescript/no-extra-non-null-assertion': 'error',
-        'typescript/no-misused-new': 'error',
-        'typescript/no-namespace': 'error',
-        'typescript/no-non-null-asserted-optional-chain': 'error',
-        'typescript/no-require-imports': 'error',
-        'typescript/no-this-alias': 'error',
-        'typescript/no-unnecessary-type-constraint': 'error',
-        'typescript/no-unsafe-declaration-merging': 'error',
-        'typescript/no-unsafe-function-type': 'error',
-        'typescript/no-wrapper-object-types': 'error',
-        'typescript/prefer-as-const': 'error',
-        'typescript/prefer-namespace-keyword': 'error',
-        'typescript/triple-slash-reference': 'error',
-        'import/named': 'off',
-        'import/namespace': 'error',
-        'import/default': 'error',
-        'import/export': 'error',
-        'import/no-named-as-default': 'warn',
-        'import/no-named-as-default-member': 'warn',
-        'import/no-duplicates': 'warn',
         'react/display-name': 'error',
+        'react/exhaustive-deps': 'warn',
         'react/jsx-key': 'error',
         'react/jsx-no-comment-textnodes': 'error',
         'react/jsx-no-duplicate-props': 'error',
@@ -165,6 +121,30 @@ export default defineConfig({
         'react/no-unsafe': 'off',
         'react/react-in-jsx-scope': 'off',
         'react/require-render-return': 'error',
+        'react/rules-of-hooks': 'error',
+        'require-yield': 'error',
+        'typescript/ban-ts-comment': 'error',
+        'typescript/no-duplicate-enum-values': 'error',
+        'typescript/no-empty-interface': 'warn',
+        'typescript/no-empty-object-type': 'error',
+        'typescript/no-explicit-any': 'warn',
+        'typescript/no-extra-non-null-assertion': 'error',
+        'typescript/no-misused-new': 'error',
+        'typescript/no-namespace': 'error',
+        'typescript/no-non-null-asserted-optional-chain': 'error',
+        'typescript/no-non-null-assertion': 'off',
+        'typescript/no-require-imports': 'error',
+        'typescript/no-this-alias': 'error',
+        'typescript/no-unnecessary-type-constraint': 'error',
+        'typescript/no-unsafe-declaration-merging': 'error',
+        'typescript/no-unsafe-function-type': 'error',
+        'typescript/no-wrapper-object-types': 'error',
+        'typescript/prefer-as-const': 'error',
+        'typescript/prefer-namespace-keyword': 'error',
+        'typescript/triple-slash-reference': 'error',
+        'use-isnan': 'error',
+        'valid-typeof': 'error',
+
         'object-shorthand': [
           'error',
           'always',
@@ -172,23 +152,111 @@ export default defineConfig({
             avoidQuotes: true,
           },
         ],
-        'jsx-a11y/media-has-caption': 'off',
-        'react/rules-of-hooks': 'error',
-        'react/exhaustive-deps': 'warn',
+
+        'perfectionist/sort-interfaces': [
+          'error',
+          {
+            ignoreCase: true,
+            order: 'asc',
+            sortBy: 'name',
+            type: 'alphabetical',
+            customGroups: [
+              {
+                elementNamePattern: '^on.+',
+                groupName: 'callback',
+              },
+            ],
+            groups: [
+              'member',
+              'optional-member',
+              'multiline-member',
+              'unknown',
+              'method',
+              'optional-method',
+            ],
+          },
+        ],
+
+        'perfectionist/sort-jsx-props': [
+          'error',
+          {
+            ignoreCase: true,
+            order: 'asc',
+            type: 'line-length',
+            customGroups: [
+              {
+                elementNamePattern: '^(id|key|ref)$',
+                groupName: 'important',
+              },
+              {
+                elementNamePattern: '^on.+',
+                groupName: 'callback',
+              },
+            ],
+            groups: [
+              'important',
+              'shorthand-prop',
+              'unknown',
+              'multiline-prop',
+              'callback',
+            ],
+          },
+        ],
+
+        'perfectionist/sort-object-types': [
+          'error',
+          {
+            ignoreCase: true,
+            order: 'asc',
+            sortBy: 'name',
+            type: 'alphabetical',
+            customGroups: [
+              {
+                elementNamePattern: '^on.+',
+                groupName: 'callback',
+              },
+            ],
+            groups: [
+              'member',
+              'optional-member',
+              'multiline-member',
+              'unknown',
+              'method',
+              'optional-method',
+            ],
+          },
+        ],
+
+        'perfectionist/sort-objects': [
+          'error',
+          {
+            groups: ['member', 'multiline-member', 'method', 'callback'],
+            ignoreCase: true,
+            order: 'asc',
+            sortBy: 'name',
+            type: 'alphabetical',
+            customGroups: [
+              {
+                elementNamePattern: '^on.+',
+                groupName: 'callback',
+              },
+            ],
+          },
+        ],
+
         'react/only-export-components': [
           'warn',
           {
             allowConstantExport: true,
           },
         ],
-        'typescript/no-non-null-assertion': 'off',
-        'typescript/no-empty-interface': 'warn',
+
         'typescript/explicit-function-return-type': [
           'off',
           {
             allowExpressions: true,
-            allowTypedFunctionExpressions: true,
             allowHigherOrderFunctions: true,
+            allowTypedFunctionExpressions: true,
           },
         ],
       },

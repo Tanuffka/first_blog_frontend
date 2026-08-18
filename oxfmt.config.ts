@@ -1,12 +1,12 @@
 import { defineConfig } from 'oxfmt';
 
 export default defineConfig({
-  trailingComma: 'all',
-  tabWidth: 2,
+  printWidth: 80,
   semi: true,
   singleQuote: true,
-  printWidth: 80,
   sortPackageJson: false,
+  tabWidth: 2,
+  trailingComma: 'all',
 
   ignorePatterns: [
     '.gitignore',
@@ -23,16 +23,16 @@ export default defineConfig({
     newlinesBetween: true,
     customGroups: [
       {
-        groupName: 'react-imports',
         elementNamePattern: ['react', 'react-**'],
+        groupName: 'react-imports',
       },
       {
-        groupName: '@mui-import',
         elementNamePattern: ['@mui/**'],
+        groupName: '@mui-import',
       },
       {
-        groupName: 'absolute-imports',
         elementNamePattern: ['src/**'],
+        groupName: 'absolute-imports',
       },
     ],
     groups: [
