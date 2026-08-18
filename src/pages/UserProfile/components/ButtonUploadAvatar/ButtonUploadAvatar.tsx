@@ -104,17 +104,17 @@ export default function ButtonUploadAvatar() {
   return (
     <>
       <Button
+        tabIndex={-1}
+        role={undefined}
         component="label"
         variant="contained"
-        role={undefined}
-        tabIndex={-1}
       >
         Upload
         <VisuallyHiddenInput
           ref={fileInputRef}
-          multiple={false}
           type="file"
           accept="image/*"
+          multiple={false}
           onChange={handleFileSelect}
         />
       </Button>
@@ -132,7 +132,7 @@ export default function ButtonUploadAvatar() {
             <img ref={imageRef} src={imageSrc} onLoad={handleImageLoad} />
           </ReactCrop>
           {errorMessages?.map((message, index) => (
-            <Typography key={index} fontWeight={600} color="red" component="p">
+            <Typography key={index} color="red" component="p" fontWeight={600}>
               {message}
             </Typography>
           ))}
@@ -154,8 +154,8 @@ export default function ButtonUploadAvatar() {
             Cancel
           </Button>
           <Button
-            loading={isUploading}
             variant="contained"
+            loading={isUploading}
             sx={{ minWidth: 150 }}
             onClick={handleUploadImage}
           >
