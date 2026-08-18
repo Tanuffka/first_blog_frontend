@@ -1,0 +1,43 @@
+{
+  "$schema": "./node_modules/oxfmt/configuration_schema.json",
+  "trailingComma": "all",
+  "tabWidth": 2,
+  "semi": true,
+  "singleQuote": true,
+  "printWidth": 80,
+  "sortPackageJson": false,
+  "ignorePatterns": [
+    ".gitignore",
+    ".prettierignore",
+    "yarn.lock",
+    "yarn-error.log",
+    "package-lock.json",
+    "dist",
+    "coverage",
+    "node_modules"
+  ],
+  "sortImports": {
+    "newlinesBetween": true,
+    "customGroups": [
+      {
+        "groupName": "react-import",
+        "elementNamePattern": ["react"]
+      },
+      {
+        "groupName": "absolute-imports",
+        "elementNamePattern": ["src/**"]
+      }
+    ],
+    "groups": [
+      "value-builtin",
+      ["value-external", "type-import"],
+      "react-import",
+      "absolute-imports",
+      ["value-internal", "type-internal"],
+      ["value-parent", "type-parent"],
+      ["value-sibling", "value-index"],
+      ["type-sibling", "type-index"],
+      "unknown"
+    ]
+  }
+}
