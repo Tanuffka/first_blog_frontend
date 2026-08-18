@@ -1,5 +1,4 @@
 import { type ChangeEvent, type SyntheticEvent, useRef, useState } from 'react';
-
 import {
   type Crop,
   type PercentCrop,
@@ -8,11 +7,11 @@ import {
 } from 'react-image-crop';
 import 'react-image-crop/dist/ReactCrop.css';
 
-import { styled } from '@mui/material/styles';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
+import { styled } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
 
 import { useUploadAvatar } from 'src/hooks/useUploadAvatar';

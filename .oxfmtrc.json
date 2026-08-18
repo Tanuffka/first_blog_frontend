@@ -24,14 +24,17 @@
         "elementNamePattern": ["react"]
       },
       {
+        "groupName": "@mui-import",
+        "elementNamePattern": ["@mui/**"]
+      },
+      {
         "groupName": "absolute-imports",
         "elementNamePattern": ["src/**"]
       }
     ],
     "groups": [
-      "value-builtin",
-      ["value-external", "type-import"],
-      "react-import",
+      ["react-import", "value-builtin", "value-external", "type-import"],
+      "@mui-import",
       "absolute-imports",
       ["value-internal", "type-internal"],
       ["value-parent", "type-parent"],

@@ -1,11 +1,17 @@
 {
   "$schema": "./node_modules/oxlint/configuration_schema.json",
-  "plugins": [],
+  "plugins": ["typescript", "react", "jsx-a11y"],
   "categories": {
     "correctness": "off"
   },
+  "options": {
+    "typeAware": true,
+    "typeCheck": true,
+    "maxWarnings": 10
+  },
   "env": {
-    "builtin": true
+    "builtin": true,
+    "browser": true
   },
   "ignorePatterns": [
     "dist",
@@ -150,8 +156,7 @@
             "allowHigherOrderFunctions": true
           }
         ]
-      },
-      "plugins": ["typescript", "import", "react", "jsx-a11y"]
+      }
     }
   ]
 }
