@@ -3,7 +3,7 @@ import { defineConfig } from 'oxlint';
 export default defineConfig({
   jsPlugins: ['eslint-plugin-perfectionist'],
 
-  plugins: ['typescript', 'react', 'jsx-a11y'],
+  plugins: ['typescript', 'react', 'import', 'jsx-a11y'],
 
   categories: {
     correctness: 'off',
