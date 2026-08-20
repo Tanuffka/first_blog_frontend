@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import type { SyntheticEvent } from 'react';
 import { useDebounce } from 'use-debounce';
 
 import Autocomplete from '@mui/material/Autocomplete';
@@ -14,35 +15,42 @@ interface ArticleTagsFilterProps {
 export default function TagsInputFilter({ onChange }: ArticleTagsFilterProps) {
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const [tagInputValue, setTagInputValue] = useState<string>('');
-  const [debouncedTagInput] = useDebounce(tagInputValue, 500);
 
-  const { data: availableTags = [], isLoading } =
-    useSearchTags(debouncedTagInput);
+  const trimmedTagInputValue = tagInputValue.trim();
+
+  const [debouncedTagInputValue] = useDebounce(trimmedTagInputValue, 500);
+
+  const { data: availableTags = [], isFetching } = useSearchTags(
+    debouncedTagInputValue,
+  );
+
+  const handleFilterChange = (_: SyntheticEvent, selectedOptions: string[]) => {
+    const validTags = selectedOptions
+      .map((tag) => tag.trim())
+      .filter((tag) => tag.length >= 3);
+
+    const uniqueTagNames = Array.from(new Set(validTags));
+    setSelectedTags(uniqueTagNames);
+    onChange(uniqueTagNames);
+  };
+  const isTagsDropdownOpen =
+    trimmedTagInputValue.length >= 3 && availableTags.length > 0;
 
   return (
     <Autocomplete
       multiple
       freeSolo
       fullWidth
-      loading={isLoading}
-      options={availableTags}
       value={selectedTags}
+      options={availableTags}
+      open={isTagsDropdownOpen}
       inputValue={tagInputValue}
-      onInputChange={(_, newInputValue) => setTagInputValue(newInputValue)}
-      open={tagInputValue.trim().length >= 3}
-      renderOption={(optionProps, option) => (
-        <li {...optionProps} key={optionProps.key}>
-          {option}
-        </li>
-      )}
-      onChange={(_, selectedOptions) => {
-        const validTags = selectedOptions
-          .map((tag) => tag.trim())
-          .filter((tag) => tag.length >= 3);
-
-        const uniqueTagNames = Array.from(new Set(validTags));
-        setSelectedTags(uniqueTagNames);
-        onChange(uniqueTagNames);
+      renderOption={({ key, ...restOptionProps }, option) => {
+        return (
+          <li key={key} {...restOptionProps}>
+            {option}
+          </li>
+        );
       }}
       renderInput={(inputParams) => {
         return (
@@ -55,9 +63,9 @@ export default function TagsInputFilter({ onChange }: ArticleTagsFilterProps) {
                 ...inputParams.InputProps,
                 endAdornment: (
                   <>
-                    {isLoading ? (
-                      <CircularProgress color="inherit" size={20} />
-                    ) : null}
+                    {isFetching && (
+                      <CircularProgress size={20} color="inherit" />
+                    )}
                     {inputParams.InputProps.endAdornment}
                   </>
                 ),
@@ -66,6 +74,8 @@ export default function TagsInputFilter({ onChange }: ArticleTagsFilterProps) {
           />
         );
       }}
+      onChange={handleFilterChange}
+      onInputChange={(_, newInputValue) => setTagInputValue(newInputValue)}
     />
   );
 }

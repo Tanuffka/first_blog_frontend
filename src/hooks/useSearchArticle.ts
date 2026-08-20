@@ -2,15 +2,16 @@ import { useQuery } from '@tanstack/react-query';
 
 import { publicApi } from 'src/shared/api';
 import type { SearchArticleApiResponseSchema } from 'src/shared/api';
+import { SortOrder } from 'src/shared/types/order';
 
 export interface FilterApiResponseSchema {
-  order?: 'ASC' | 'DESC';
-  page?: number;
-  limit?: number;
-  searchKeyword?: string;
-  searchByTitle?: boolean;
-  tags?: string[];
   author?: string;
+  limit?: number;
+  order?: SortOrder;
+  page?: number;
+  searchByTitle?: boolean;
+  searchKeyword?: string;
+  tags?: string[];
 }
 
 export type ArticleSearchParams = Pick<
@@ -20,24 +21,24 @@ export type ArticleSearchParams = Pick<
 
 export function useSearchArticle(filters: FilterApiResponseSchema = {}) {
   const {
-    order = 'DESC',
-    page = 1,
-    limit = 10,
-    searchKeyword,
-    searchByTitle = true,
-    tags,
     author,
+    limit = 10,
+    order = SortOrder.DESC,
+    page = 1,
+    searchByTitle = true,
+    searchKeyword,
+    tags,
   } = filters;
 
   const queryParams: Record<string, string | number> = {
+    limit,
     order,
     page,
-    limit,
   };
 
   const trimmedSearch = searchKeyword?.trim();
-  if (trimmedSearch) {
-    queryParams[searchByTitle ? 'title' : 'search'] = trimmedSearch;
+  if (trimmedSearch && searchByTitle) {
+    queryParams.title = trimmedSearch;
   }
 
   if (tags && tags.length > 0) {

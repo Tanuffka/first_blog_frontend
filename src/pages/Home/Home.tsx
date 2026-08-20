@@ -13,9 +13,10 @@ import {
   type FilterApiResponseSchema,
   type ArticleSearchParams,
 } from 'src/hooks/useSearchArticle';
+import { SortOrder } from 'src/shared/types/order';
 
 export default function Home() {
-  const [order, setOrder] = useState<'ASC' | 'DESC'>('DESC');
+  const [order, setOrder] = useState<SortOrder>(SortOrder.DESC);
   const [page, setPage] = useState<number>(1);
 
   const [searchParams, setSearchParams] = useState<ArticleSearchParams>({
@@ -38,10 +39,10 @@ export default function Home() {
       }
 
       setSearchParams({
-        searchKeyword: incomingFilters.searchKeyword,
-        searchByTitle: incomingFilters.searchByTitle,
-        tags: incomingFilters.tags,
         author: incomingFilters.author,
+        searchByTitle: incomingFilters.searchByTitle,
+        searchKeyword: incomingFilters.searchKeyword,
+        tags: incomingFilters.tags,
       });
     },
     [],
@@ -65,7 +66,7 @@ export default function Home() {
 
       <Grid container spacing={2}>
         {isLoading && (
-          <Grid container flex={1} justifyContent="center" alignItems="center">
+          <Grid container flex={1} alignItems="center" justifyContent="center">
             <CircularProgress />
           </Grid>
         )}
@@ -74,15 +75,15 @@ export default function Home() {
         ))}
       </Grid>
 
-      <Box display="flex" justifyContent="center" my={4}>
+      <Box my={4} display="flex" justifyContent="center">
         <Pagination
-          count={5}
-          defaultPage={0}
-          page={page}
-          onChange={handlePageChange}
-          color="primary"
-          showFirstButton
           showLastButton
+          showFirstButton
+          count={5}
+          page={page}
+          defaultPage={0}
+          color="primary"
+          onChange={handlePageChange}
         />
       </Box>
     </Container>

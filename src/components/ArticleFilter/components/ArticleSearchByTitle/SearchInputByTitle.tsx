@@ -27,22 +27,21 @@ export default function SearchInputByTitle({
 
   return (
     <TextField
-      value={searchKeyword}
-      onChange={(event) => setSearchKeyword(event.target.value)}
-      label="Search (by title)"
       fullWidth
+      value={searchKeyword}
+      label="Search (by title)"
       placeholder="Min. 3 characters"
       slotProps={{
         input: {
           endAdornment: (
             <InputAdornment position="end">
-              {isLoading && <CircularProgress color="inherit" size={20} />}
+              {isLoading && <CircularProgress size={20} color="inherit" />}
               {!isLoading && searchKeyword && (
                 <IconButton
+                  edge="end"
                   size="small"
                   aria-label="clear search input"
                   onClick={() => setSearchKeyword('')}
-                  edge="end"
                 >
                   <ClearIcon fontSize="small" />
                 </IconButton>
@@ -51,6 +50,7 @@ export default function SearchInputByTitle({
           ),
         },
       }}
+      onChange={(event) => setSearchKeyword(event.target.value)}
     />
   );
 }
