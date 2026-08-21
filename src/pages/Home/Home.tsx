@@ -10,13 +10,13 @@ import Article from 'src/components/Article';
 import ArticleSearch from 'src/components/ArticleFilter/components';
 import {
   useSearchArticle,
-  type FilterApiResponseSchema,
+  type UseSearchArticleParams,
   type ArticleSearchParams,
 } from 'src/hooks/useSearchArticle';
-import { SortOrder } from 'src/shared/types/order';
+import { SORT_ORDER } from 'src/shared/types/common';
 
 export default function Home() {
-  const [order, setOrder] = useState<SortOrder>(SortOrder.DESC);
+  const [order, setOrder] = useState<SORT_ORDER>(SORT_ORDER.desc);
   const [page, setPage] = useState<number>(1);
 
   const [searchParams, setSearchParams] = useState<ArticleSearchParams>({
@@ -33,7 +33,7 @@ export default function Home() {
     });
 
   const handleSearchChange = useCallback(
-    (incomingFilters: FilterApiResponseSchema) => {
+    (incomingFilters: UseSearchArticleParams) => {
       if (incomingFilters.order) {
         setOrder(incomingFilters.order);
       }

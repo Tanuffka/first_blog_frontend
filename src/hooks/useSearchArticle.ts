@@ -2,12 +2,12 @@ import { useQuery } from '@tanstack/react-query';
 
 import { publicApi } from 'src/shared/api';
 import type { SearchArticleApiResponseSchema } from 'src/shared/api';
-import { SortOrder } from 'src/shared/types/order';
+import { SORT_ORDER } from 'src/shared/types/common';
 
-export interface FilterApiResponseSchema {
+export interface UseSearchArticleParams {
   author?: string;
   limit?: number;
-  order?: SortOrder;
+  order?: SORT_ORDER;
   page?: number;
   searchByTitle?: boolean;
   searchKeyword?: string;
@@ -15,15 +15,15 @@ export interface FilterApiResponseSchema {
 }
 
 export type ArticleSearchParams = Pick<
-  FilterApiResponseSchema,
+  UseSearchArticleParams,
   'searchKeyword' | 'searchByTitle' | 'tags' | 'author'
 >;
 
-export function useSearchArticle(filters: FilterApiResponseSchema = {}) {
+export function useSearchArticle(filters: UseSearchArticleParams = {}) {
   const {
     author,
     limit = 10,
-    order = SortOrder.DESC,
+    order = SORT_ORDER.desc,
     page = 1,
     searchByTitle = true,
     searchKeyword,
