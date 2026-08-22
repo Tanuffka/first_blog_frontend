@@ -3,4 +3,5 @@ export type {
   ArticleApiResponseSchema,
   UserApiResponseSchema,
   AuthorizedUserApiSchema,
+  SearchArticleApiResponseSchema,
 } from './schema';

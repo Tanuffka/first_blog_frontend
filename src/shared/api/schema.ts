@@ -1,3 +1,12 @@
+export interface MetaPaginationApiResponseSchema {
+  hasNextPage: boolean;
+  hasPreviousPage: boolean;
+  limit: number;
+  page: number;
+  totalItems: number;
+  totalPages: number;
+}
+
 export interface UserApiResponseSchema {
   _id: string;
   firstname: string;
@@ -38,4 +47,9 @@ export interface TagSchema extends TagsApiResponseSchema {
 }
 export interface TagsApiResponseSchema {
   tags?: TagSchema[];
+}
+
+export interface SearchArticleApiResponseSchema {
+  data: ArticleApiResponseSchema[];
+  meta: MetaPaginationApiResponseSchema;
 }

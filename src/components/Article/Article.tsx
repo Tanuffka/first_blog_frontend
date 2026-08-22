@@ -1,4 +1,4 @@
-import { Link, useParams } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
@@ -13,9 +13,6 @@ import { type ArticleApiResponseSchema } from 'src/shared/api';
 import Date from 'src/components/PostingDate';
 import TextEditor from 'src/components/TextEditor';
 import { getPublicFileURL } from 'src/utils/helpers/s3.ts';
-import { useFetchMe } from 'src/hooks/useFetchMe';
-import { useFetchArticle } from 'src/hooks/useFetchArticle';
-import { useSession } from 'src/stores/useSession';
 import Tags from './components/Tags';
 
 type ArticleProps = ArticleApiResponseSchema;
@@ -29,17 +26,7 @@ export default function Article({
   coverImage,
   createdAt,
 }: ArticleProps) {
-  const { id } = useParams<{ id: string }>();
-  const { data: article } = useFetchArticle(id!);
-  const { data: currentUser } = useFetchMe();
-
-  const { isAuthenticated } = useSession();
-
-  if (!isAuthenticated || !currentUser) {
-    return null;
-  }
-
-  const userAcronyms = getAcronyms(currentUser.firstname, currentUser.lastname);
+  const userAcronyms = getAcronyms(author.firstname, author.lastname);
 
   const articleCoverImageURL = getPublicFileURL(coverImage);
 

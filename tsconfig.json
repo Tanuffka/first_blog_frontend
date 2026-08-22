@@ -3,6 +3,8 @@
     "src",
     "eslint.config.js",
     "prettier.config.js",
+    "oxlint.config.js",
+    "oxfmt.config.js",
     "vite.config.js"
   ],
 
