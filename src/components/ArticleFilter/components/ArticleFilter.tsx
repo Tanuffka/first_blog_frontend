@@ -2,14 +2,14 @@ import { memo, useCallback, useState } from 'react';
 
 import { Box } from '@mui/material';
 
-import type { FilterApiResponseSchema } from 'src/hooks/useSearchArticle';
-import { SortOrder } from 'src/shared/types/order';
+import type { UseSearchArticleParams } from 'src/hooks/useSearchArticle';
+import { SORT_ORDER } from 'src/shared/types/common';
 
 import SearchInputByTitle from './ArticleSearchByTitle';
 import TagsInputFilter from './ArticleTagsFilter/TagsInputFilter';
 
 interface ArticleFilterProps {
-  onChange: (filters: FilterApiResponseSchema) => void;
+  onChange: (filters: UseSearchArticleParams) => void;
 }
 
 function ArticleFilter({ onChange }: ArticleFilterProps) {
@@ -20,7 +20,7 @@ function ArticleFilter({ onChange }: ArticleFilterProps) {
     (newKeyword: string) => {
       setSearchKeyword(newKeyword);
       onChange({
-        order: SortOrder.DESC,
+        order: SORT_ORDER.desc,
         searchByTitle: true,
         searchKeyword: newKeyword,
         tags,
@@ -33,7 +33,7 @@ function ArticleFilter({ onChange }: ArticleFilterProps) {
     (newTags: string[]) => {
       setTags(newTags);
       onChange({
-        order: SortOrder.DESC,
+        order: SORT_ORDER.desc,
         searchByTitle: true,
         searchKeyword,
         tags: newTags,
