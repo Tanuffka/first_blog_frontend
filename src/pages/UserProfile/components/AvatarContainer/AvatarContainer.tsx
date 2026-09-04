@@ -1,13 +1,13 @@
 import Box from '@mui/material/Box';
+import { grey } from '@mui/material/colors';
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
-import { grey } from '@mui/material/colors';
 import { useTheme } from '@mui/material/styles';
 
 import { useFetchMe } from 'src/hooks/useFetchMe';
 
-import ButtonUploadAvatar from '../ButtonUploadAvatar';
 import ButtonDeleteAvatar from '../ButtonDeleteAvatar';
+import ButtonUploadAvatar from '../ButtonUploadAvatar';
 
 export default function AvatarContainer() {
   const theme = useTheme();
@@ -19,20 +19,20 @@ export default function AvatarContainer() {
       <Paper sx={{ p: 2 }}>
         <Box
           sx={{
-            width: 300 - 32,
-            height: 300 - 32,
+            backgroundImage: 'url(/images/avatar-placeholder.png)',
             backgroundPosition: 'center',
             backgroundRepeat: 'no-repeat',
             backgroundSize: 'cover',
-            backgroundImage: 'url(/images/avatar-placeholder.png)',
             borderColor: grey[300],
-            borderWidth: 1,
-            borderStyle: 'solid',
             borderRadius: theme.shape.borderRadius + 'px',
+            borderStyle: 'solid',
+            borderWidth: 1,
+            height: 300 - 32,
             overflow: 'hidden',
+            width: 300 - 32,
             img: {
-              width: '100%',
               height: '100%',
+              width: '100%',
             },
           }}
         >
@@ -44,8 +44,8 @@ export default function AvatarContainer() {
           sx={{
             display: 'flex',
             flexDirection: 'column',
-            mt: 2,
             justifyContent: 'space-around',
+            mt: 2,
           }}
         >
           <ButtonUploadAvatar />

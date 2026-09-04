@@ -1,29 +1,30 @@
-import path from 'node:path';
-
-import { defineConfig } from 'vite';
+// oxlint-disable no-undef
 import react from '@vitejs/plugin-react';
+import path from 'node:path';
+import { defineConfig } from 'vite';
 
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react()],
+  resolve: {
+    alias: {
+      src: path.resolve(__dirname, 'src'),
+      tests: path.resolve(__dirname, 'tests'),
+    },
+  },
   server: {
     port: 3000,
     proxy: {
       '/api': {
-        target: 'http://localhost:4000',
         changeOrigin: true,
         secure: false,
+        target: 'http://localhost:4000',
       },
       '/storage': {
-        target: 'http://localhost:4000',
         changeOrigin: true,
         secure: false,
+        target: 'http://localhost:4000',
       },
-    },
-  },
-  resolve: {
-    alias: {
-      src: path.resolve(__dirname, 'src'),
     },
   },
 });

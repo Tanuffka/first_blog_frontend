@@ -1,6 +1,7 @@
 {
   "include": [
     "src",
+    "tests",
     "eslint.config.js",
     "prettier.config.js",
     "oxlint.config.js",
@@ -31,7 +32,8 @@
 
     /* Paths and Aliases */
     "paths": {
-      "src/*": ["./src/*"]
+      "src/*": ["./src/*"],
+      "tests/*": ["./tests/*"]
     }
   }
 }

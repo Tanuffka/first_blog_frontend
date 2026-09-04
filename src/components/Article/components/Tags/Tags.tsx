@@ -1,6 +1,7 @@
-import Stack from '@mui/material/Stack';
-import Chip from '@mui/material/Chip';
 import Box from '@mui/material/Box';
+import Chip from '@mui/material/Chip';
+import Stack from '@mui/material/Stack';
+
 import { type TagsApiResponseSchema } from 'src/shared/api/schema';
 
 interface TagsProps {
@@ -12,7 +13,7 @@ export default function Tags({ tags = [] }: TagsProps) {
 
   return (
     <Box sx={{ marginY: 2 }}>
-      <Stack direction="row" spacing={1} flexWrap="wrap" useFlexGap>
+      <Stack useFlexGap spacing={1} direction="row" flexWrap="wrap">
         {tags.map((tag) => (
           <Chip key={tag.name} label={tag.name} variant="outlined" />
         ))}
